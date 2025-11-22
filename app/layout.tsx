@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google';
 
 export const metadata = {
   metadataBase: new URL('https://postgres-prisma.vercel.app'),
-  title: 'What did the fox say?',
+  title: 'What Did the Fox Say?',
   description: 'A repository of quotes from Ryan the Fox',
 };
 

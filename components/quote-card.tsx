@@ -1,6 +1,7 @@
-export default function QuoteCard() {
+type QCProps = {
+  quote: string;
+};
+export default function QuoteCard({ quote }: QCProps) {
 
-
-
-  return <div></div>;
+  return <div>{quote}</div>;
 }

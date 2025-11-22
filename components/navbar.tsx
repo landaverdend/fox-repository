@@ -9,7 +9,7 @@ export default async function Navbar() {
           <Link href="/">
             <Image src="/fox.png" alt="Fox" width={120} height={120} className="bg-foxdark rounded-md" />
           </Link>
-          <span className="self-center text-2xl text-heading whitespace-nowrap">What Did the Fox Say?</span>
+          <span className="self-center text-2xl md:text-5xl text-heading whitespace-nowrap">What Did the Fox Say?</span>
         </div>
         <button
           data-collapse-toggle="navbar-default"
