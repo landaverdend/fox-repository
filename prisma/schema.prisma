@@ -15,6 +15,7 @@ model users {
   email     String   @unique
   createdAt DateTime @default(now())
 
+  role UserRole @default(NORMAL)
   quotes quotes[]
 }
 
@@ -25,4 +26,9 @@ model quotes {
 
   uploadedBy   users @relation(fields: [uploadedById], references: [id])
   uploadedById Int
+}
+
+enum UserRole {
+  ADMIN
+  NORMAL
 }

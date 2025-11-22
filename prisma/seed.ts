@@ -1,11 +1,13 @@
+import { UserRole } from '@prisma/client';
 import prisma from '../lib/prisma';
 
 async function main() {
   const response = await Promise.all([
     await prisma.users.create({
       data: {
-        name: 'Billy Sease',
+        name: 'Nic',
         email: 'nicodemus.landaverde98@gmail.com',
+        role: UserRole.ADMIN,
       },
     }),
 
