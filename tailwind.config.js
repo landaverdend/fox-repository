@@ -7,10 +7,11 @@ module.exports = {
         default: ['var(--font-inter)'],
       },
       colors: {
-        fox: '#dd8342', 
+        fox: '#dd8342',
         foxdark: '#b36734',
         foxbg: '#fff2d8',
         foxdarkbg: '#e6d6b3',
+        slate: '#3b2618',
       },
     },
   },
