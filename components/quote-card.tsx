@@ -25,7 +25,7 @@ function QuoteCardContent({ line }: { line: ParsedQuoteLine }) {
     case 'dialogue':
       return (
         <p className="text-slate text-lg">
-          <span className="font-bold">{line.speaker}:</span> "{line.text}"
+          <span className="font-bold">{line.speaker}:</span> &quot;{line.text}&quot;
         </p>
       );
     default:
