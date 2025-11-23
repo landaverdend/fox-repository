@@ -75,7 +75,7 @@ I used to eat the soap in the bath.
 One thing about biking is you can’t really check your phone when you’re driving
 <context>Looking at Temu</context> It would be cool to get a pwelder
 I would like to order a drink with a dollar of interest.
-You know GTA6 is going to have a better judiciary system" <context>extracting what he meant by this: He thinks specific Supreme Court justices will appear in the form of parody characters in GTA6</context>
+You know GTA6 is going to have a better judiciary system <context>extracting what he meant by this: He thinks specific Supreme Court justices will appear in the form of parody characters in GTA6</context>
 I think he’s more black than he is muslim
 I’ve never been actually fired, actually, till now….hahahaha
 What if your mouse could turn into a sunglasses holder? Like a sunglasses case?

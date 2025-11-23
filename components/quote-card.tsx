@@ -9,8 +9,14 @@ type QCProps = {
 export default function QuoteCard({ quote, className }: QCProps) {
   const parsedQuote = parseQuote(quote);
 
+  const linesLength = parsedQuote.lines.length;
+  const hasDialogue = parsedQuote.lines.some((line) => line.type === 'dialogue');
+
   return (
-    <div className={`bg-foxbg p-4 rounded-md ${className}`}>
+    <div
+      className={`bg-foxbg p-4 rounded-md ${className} flex flex-col gap-2  
+      ${linesLength > 1 ? 'justify-start' : 'justify-center'}
+      ${hasDialogue ? 'items-start' : 'items-center'}`}>
       {parsedQuote.lines.map((line) => (
         <QuoteCardContent key={line.text} line={line} />
       ))}
@@ -21,7 +27,7 @@ export default function QuoteCard({ quote, className }: QCProps) {
 function QuoteCardContent({ line }: { line: ParsedQuoteLine }) {
   switch (line.type) {
     case 'context':
-      return <p className="text-slate text-lg italic">({line.text})</p>;
+      return <p className="text-slate text-md italic self-center">({line.text})</p>;
     case 'dialogue':
       return (
         <p className="text-slate text-lg">
