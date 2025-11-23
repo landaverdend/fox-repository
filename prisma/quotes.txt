@@ -6,7 +6,7 @@ What turned her away from the BBC?
 I don’t want these cum dumpsters paying me with cum money.
 <context>Walking slowly across the empty road in front of Krave</context>These invisible cars are hitting me in another reality.
 There's a hooker in Hillsborough who wants to have sex with me.
-<context>Texting a hooker</context> <Hooker>"I'm in Hillsborough, but I charge though"</Hooker> <Ryan> "Oh, so like what, you'd charge my phone? Hehe"</Ryan>
+<context>Texting a hooker</context> <speaker name="Hooker">I'm in Hillsborough, but I charge though</speaker><speaker name="Ryan"> Oh, so like what, you'd charge my phone? Hehe</speaker>
 <context>Describing the white kids that go to app state football games</context>Football Republicans
 Why do you guys want to be less authentic?
 Okay, what do you think of a 5'1 chubby girl?
@@ -17,7 +17,7 @@ I like to keep my debit low
 It's the most crazy fart you can smell
 So did he die? <context>After showing him the self immolating monk</context>
 He only smelled nice because it was his birthday
-<Me>I'm not chasing fat bitches on tinder</Me><Ryan>You only have to walk slow</Ryan>
+<speaker name="Me">I'm not chasing fat bitches on tinder</speaker><speaker name="Ryan">You only have to walk slow</speaker>
 Do you have carpet or drapes
 If you smelled snoop doggs fart it would be the strongest weed
 Ryans biggest criminal charge: “discrimination of a minor”
@@ -32,7 +32,7 @@ Andrew Tate should have a booth at career fairs
 I heard the first few startup sounds of a ferrari kinda sound like nigger
 Does the area between y’alls balls and your gooch smell like cum?
 This is the smell when you grill kyra’s butt
-<Ryan>This looks like a show from the 80s? The redheaded super powered girl?</Ryan><Matt>Stranger Things?</Matt><Ryan>Yeah!</Ryan> <context>We are looking at gore where a man's head has been crushed</context>
+<speaker name="Ryan">This looks like a show from the 80s? The redheaded super powered girl?</speaker><speaker name="Matt">Stranger Things?</speaker><speaker name="Ryan">Yeah!</speaker> <context>We are looking at gore where a man's head has been crushed</context>
 Where are the trad trannies?
 I could hit a dab of a fart
 Would you consider having a pizza cake for your birthday?
@@ -57,7 +57,7 @@ I wonder how many marshmallows would fit inside of Will
 You know, I used to be circumcised
 The only thing they can do to me is put me in the hospital... where all my friends are :D
 What if on every Doordash order I went on... I got to fuck the person at the house.
-I feel like we’re getting to the orgy section of things <context>our friend group</context>
+I feel like we’re getting to the orgy section of things in our friend group
 Apparently saying ‘boy’ to black people is really racist
 We should start celebrating as a nation when we rape a terrorist
 <context>In response to Will learning a semester of Japanese in college</context>Are you trying to get like a Japanese sex wife?
@@ -66,16 +66,16 @@ Cum doesn’t even taste that good
 You know, my aunt got bit by an old person one time
 <context>Talking about the trump assassination</context>You know we’re all potential presidents?
 Kamala used to be one of diddy’s girls
-<context>Tom calls Ryan</context><Tom>you busy right now?</Tom><Ryan>yeah</Ryan><Tom>what are you doing?</Tom><Ryan>I'm kinda tossing and turning in bed right now</Ryan>
+<context>Tom calls Ryan</context><speaker name="Tom">you busy right now?</speaker><speaker name="Ryan">yeah</speaker><Tom>what are you doing?</Tom><speaker name="Ryan">I'm kinda tossing and turning in bed right now</speaker>
 There’s a white guy with a BBL
 Did you know it’s good for your teeth to eat dessert before dinner?
-<>Ryan have you ever shat in the shower</><Ryan>Yeah</Ryan><>What was the circumstance?</><Ryan>Accident</Ryan>
+<speaker name="">Ryan have you ever shat in the shower</speaker><speaker name="Ryan">Yeah</speaker><speaker name="">What was the circumstance?</speaker><speaker name="Ryan">Accident</speaker>
 Wouldn’t it be cool if anyone you worked for had like a porn side of the company?
 I used to eat the soap in the bath.
 One thing about biking is you can’t really check your phone when you’re driving
 <context>Looking at Temu</context> It would be cool to get a pwelder
 I would like to order a drink with a dollar of interest.
-You know GTA6 is going to have a better judiciary system" <contextextracting what he meant by this: He thinks specific Supreme Court justices will appear in the form of parody characters in GTA6</context>
+You know GTA6 is going to have a better judiciary system" <context>extracting what he meant by this: He thinks specific Supreme Court justices will appear in the form of parody characters in GTA6</context>
 I think he’s more black than he is muslim
 I’ve never been actually fired, actually, till now….hahahaha
 What if your mouse could turn into a sunglasses holder? Like a sunglasses case?
