@@ -1,34 +1,39 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider     = "postgresql"
-  url          = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl    = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url          = env("POSTGRES_PRISMA_URL")
+  directUrl    = env("POSTGRES_URL_NON_POOLING")
   relationMode = "foreignKeys"
+  schemas      = ["neon_auth", "public"]
 }
 
-model users {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  createdAt DateTime @default(now())
+model neon_auth_users {
+  raw_json   Json
+  id         String    @id @default(dbgenerated("(raw_json ->> 'id'::text)"))
+  name       String?   @default(dbgenerated("(raw_json ->> 'display_name'::text)"))
+  email      String?   @default(dbgenerated("(raw_json ->> 'primary_email'::text)"))
+  created_at DateTime? @default(dbgenerated("to_timestamp((trunc((((raw_json ->> 'signed_up_at_millis'::text))::bigint)::double precision) / (1000)::double precision))")) @db.Timestamptz(6)
+  updated_at DateTime? @db.Timestamptz(6)
+  deleted_at DateTime? @db.Timestamptz(6)
+  role       String?
 
-  role UserRole @default(NORMAL)
-  quotes quotes[]
+  quotes     quotes[]
+
+  @@map("users_sync")
+  @@schema("neon_auth")
 }
 
 model quotes {
-  id         Int      @id @default(autoincrement())
-  quote      String
-  uploadedAt DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  quote        String
+  uploadedAt   DateTime @default(now())
+  uploadedById String
 
-  uploadedBy   users @relation(fields: [uploadedById], references: [id])
-  uploadedById Int
-}
+  uploadedBy   neon_auth_users @relation(fields: [uploadedById], references: [id])
 
-enum UserRole {
-  ADMIN
-  NORMAL
+  @@schema("public")
 }

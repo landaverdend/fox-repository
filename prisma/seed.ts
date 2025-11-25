@@ -1,4 +1,3 @@
-import { UserRole } from '@prisma/client';
 import prisma from '../lib/prisma';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
@@ -9,17 +8,17 @@ async function main() {
   const fileContent = await readFile(filePath, 'utf-8');
   const quotes = fileContent.split('\n');
 
-  const user = await prisma.users.upsert({
-    where: { email: 'nicodemus.landaverde98@gmail.com' },
-    update: {
-      name: 'Nic',
-      role: UserRole.ADMIN,
-    },
-    create: {
-      name: 'Nic',
+  // Find a user from neon_auth (users are managed by Neon Auth, not Prisma)
+  const user = await prisma.neon_auth_users.findFirst({
+    where: {
       email: 'nicodemus.landaverde98@gmail.com',
     },
   });
+
+  if (!user) {
+    console.error('User not found in neon_auth.users_sync. Make sure the user exists in Neon Auth first.');
+    return;
+  }
 
   const trimmedQuotes = quotes.map((q) => q.trim()).filter((q) => q !== '');
 

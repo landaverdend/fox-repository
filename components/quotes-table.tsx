@@ -4,8 +4,8 @@ import QuoteCard from './quote-card';
 export default async function QuotesTable() {
   // Grab all of the quotes from the database
   const quotes = await prisma.quotes.findMany({
-    orderBy: {
-      uploadedAt: 'desc',
+    include: {
+      uploadedBy: true,
     },
   });
 

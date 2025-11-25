@@ -8,7 +8,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center bg-foxdarkbg gap-16">
       <div className="flex flex-col md:flex-row-reverse items-center justify-center text-slate mt-5">
         <span className=" bg-foxdarkbg relative w-[300px] h-[450px] ">
-          <Image src="/fox_standing.png" alt="Fox" className="" fill/>
+          <Image src="/fox_standing.png" alt="Fox" className="" fill />
         </span>
 
         <div className="flex flex-col items-center justify-center mx-10 gap-5 ">
