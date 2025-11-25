@@ -1,13 +1,14 @@
 'use client';
 
 import parseQuote, { ParsedQuoteLine } from '@/lib/quoteParser';
+import { Quote } from '@/types/types';
 
 type QCProps = {
-  quote: string;
+  quote: Quote;
   className?: string;
 };
 export default function QuoteCard({ quote, className }: QCProps) {
-  const parsedQuote = parseQuote(quote);
+  const parsedQuote = parseQuote(quote.quote);
 
   const linesLength = parsedQuote.lines.length;
   const hasDialogue = parsedQuote.lines.some((line) => line.type === 'dialogue');
@@ -36,6 +37,6 @@ function QuoteCardContent({ line }: { line: ParsedQuoteLine }) {
       );
     default:
     case 'text':
-      return <p className="text-slate text-lg">{line.text}</p>;
+      return <p className="text-slate text-lg">"{line.text}"</p>;
   }
 }

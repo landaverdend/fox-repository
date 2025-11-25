@@ -11,8 +11,8 @@ export default async function QuotesTable() {
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:w-3/4">
-      {quotes.map(({ quote, id }) => (
-        <QuoteCard key={id} quote={quote} className="mx-5" />
+      {quotes.map((quote) => (
+        <QuoteCard className="mx-5" key={quote.id} quote={quote} />
       ))}
     </div>
   );
