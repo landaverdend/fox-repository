@@ -1,4 +1,4 @@
-import Navbar from '@/components/navbar';
+import { Suspense } from 'react';
 import './globals.css';
 import { Inter } from 'next/font/google';
 
@@ -18,8 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.variable}>
-        <Navbar />
-        {children}
+        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
       </body>
     </html>
   );
