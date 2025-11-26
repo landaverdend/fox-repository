@@ -17,9 +17,7 @@ const inter = Inter({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.variable}>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-      </body>
+      <body className={inter.variable}>{children}</body>
     </html>
   );
 }
