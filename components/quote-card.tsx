@@ -37,6 +37,6 @@ function QuoteCardContent({ line }: { line: ParsedQuoteLine }) {
       );
     default:
     case 'text':
-      return <p className="text-slate text-lg">"{line.text}"</p>;
+      return <p className="text-slate text-lg">&quot;{line.text}&quot;</p>;
   }
 }
