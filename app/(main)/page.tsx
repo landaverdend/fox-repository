@@ -1,5 +1,7 @@
 import QuotesTable from '@/components/quotes-table';
+import QuotesTableSkeleton from '@/components/quotes-table-skeleton';
 import Image from 'next/image';
+import { Suspense } from 'react';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +18,9 @@ export default function Home() {
           <p className="text-2xl lg:text-4xl">An ongoing collection of quotes from Mr. Ryan Fox</p>
         </div>
       </div>
-      <QuotesTable />
+      <Suspense fallback={<QuotesTableSkeleton />}>
+        <QuotesTable />
+      </Suspense>
     </main>
   );
 }
