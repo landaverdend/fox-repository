@@ -19,7 +19,6 @@ model neon_auth_users {
   created_at DateTime? @default(dbgenerated("to_timestamp((trunc((((raw_json ->> 'signed_up_at_millis'::text))::bigint)::double precision) / (1000)::double precision))")) @db.Timestamptz(6)
   updated_at DateTime? @db.Timestamptz(6)
   deleted_at DateTime? @db.Timestamptz(6)
-  role       String?
 
   quotes     quotes[]
 

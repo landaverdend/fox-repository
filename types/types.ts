@@ -1,4 +1,4 @@
-import { JsonValue } from "@prisma/client/runtime/library";
+import { JsonValue } from '@prisma/client/runtime/library';
 
 export type NeonAuthUser = {
   id: string;
@@ -19,3 +19,5 @@ export type Quote = {
 
   uploadedBy: NeonAuthUser;
 };
+
+export type StackPermission = 'admin' | 'readonly';

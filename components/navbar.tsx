@@ -1,16 +1,23 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStackApp, useUser } from '@stackframe/stack';
 import router from 'next/router';
 
 type NavbarProps = {};
 export default function Navbar({}: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const stackApp = useStackApp();
   const user = useUser();
+
+  useEffect(() => {
+    user?.hasPermission('admin').then((hasPermission) => {
+      setIsAdmin(hasPermission);
+    });
+  }, [user]);
 
   const handleLogout = async () => {
     await stackApp.signOut();
@@ -58,12 +65,19 @@ export default function Navbar({}: NavbarProps) {
                 About
               </MenuItem>
             </li>
+
+            {isAdmin && (
+              <li>
+                <MenuItem href="/admin">Admin</MenuItem>
+              </li>
+            )}
+
             {user ? (
               <MenuItem href="/" onClick={handleLogout}>
                 Logout
               </MenuItem>
             ) : (
-              <MenuItem href="/handler/sign-up">Login</MenuItem>
+              <MenuItem href="/handler/sign-in">Login</MenuItem>
             )}
           </ul>
         </div>
