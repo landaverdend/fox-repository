@@ -58,7 +58,7 @@ export default function parseQuote(quote: string): ParsedQuote {
     // Check for speaker tag.
     const speakerMatch = quote.substring(i).match(/^<speaker\s+name="([^"]*)"\s*>/i);
     if (speakerMatch) {
-      const speakerName = speakerMatch[1];
+      const speakerName = speakerMatch[1] ? speakerMatch[1] : '<Unknown Speaker>';
       const tagEnd = i + speakerMatch[0].length; // + <speaker name="...">
 
       const closeIdx = quote.indexOf(SPEAKER_TAG_END, tagEnd);
@@ -98,7 +98,6 @@ export default function parseQuote(quote: string): ParsedQuote {
     const text = quote.substring(i, nextTag).trim();
     if (text) lines.push({ type: 'text', text: text });
     i = nextTag;
- 
   }
 
   return {

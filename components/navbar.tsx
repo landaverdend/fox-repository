@@ -2,9 +2,21 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useStackApp, useUser } from '@stackframe/stack';
+import router from 'next/router';
 
-export default function Navbar() {
+type NavbarProps = {};
+export default function Navbar({}: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const stackApp = useStackApp();
+  const user = useUser();
+
+  const handleLogout = async () => {
+    await stackApp.signOut();
+
+    router.push('/');
+  };
 
   return (
     <nav className="bg-fox w-full z-20 top-0 start-0 border-b border-default text-slate select-none">
@@ -39,23 +51,41 @@ export default function Navbar() {
               isOpen ? 'bg-foxbg' : ''
             } font-medium flex flex-col p-4 md:p-0 mt-4 rounded-md border border-default rounded-base bg-neutral-secondary-soft md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-neutral-primary z-20 `}>
             <li>
-              <Link
-                href="/"
-                className="block py-2 px-3 bg-brand rounded md:bg-transparent md:text-2xl md:text-fg-brand md:p-0 hover:opacity-40"
-                aria-current="page">
-                Home
-              </Link>
+              <MenuItem href="/">Home</MenuItem>
             </li>
             <li>
-              <Link
-                href="/about"
-                className="block py-2 px-3 text-heading md:text-2xl rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:opacity-40">
+              <MenuItem href="/about" className="">
                 About
-              </Link>
+              </MenuItem>
             </li>
+            {user ? (
+              <MenuItem href="/" onClick={handleLogout}>
+                Logout
+              </MenuItem>
+            ) : (
+              <MenuItem href="/handler/sign-up">Login</MenuItem>
+            )}
           </ul>
         </div>
       </div>
     </nav>
+  );
+}
+
+type MenuItemProps = {
+  className?: string;
+  href: string;
+  children: React.ReactNode;
+
+  onClick?: () => void;
+};
+function MenuItem({ className, href, children, onClick }: MenuItemProps) {
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className={`${className} block py-2 px-3 text-heading md:text-2xl rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:opacity-40`}>
+      {children}
+    </Link>
   );
 }
