@@ -2,7 +2,6 @@ import { JsonValue } from '@prisma/client/runtime/library';
 
 export type NeonAuthUser = {
   id: string;
-  role: string | null;
   raw_json: JsonValue;
   name: string | null;
   email: string | null;

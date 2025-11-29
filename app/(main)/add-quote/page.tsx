@@ -16,9 +16,9 @@ export default function AddQuotePage() {
   };
 
   return (
-    <div className="bg-foxdarkbg min-h-screen flex flex-col items-center gap-20 text-slate">
-      <div className="mt-10 flex flex-col gap-4 items-center">
-        <div className="flex flex-col gap-2 justify-center items-center">
+    <div className="bg-foxdarkbg min-h-screen flex flex-col items-center gap-20 text-slate md:flex-row md:gap-5 md:items-start md:justify-center">
+      <div className="mt-10 flex flex-col gap-4 items-center md:flex-row md:items-start">
+        <div className="flex flex-col gap-2 justify-center items-center bg-foxbg p-2 rounded-md ">
           <h2 className="text-xl font-semibold">Quote Blocks</h2>
           <AddButton
             onClick={() => {
@@ -40,7 +40,7 @@ export default function AddQuotePage() {
           </AddButton>
         </div>
         {/* Stack component for draft quote lines */}
-        <div className="flex flex-col gap-2 bg-foxbg p-4 rounded-md items-center w-full">
+        <div className="flex flex-col gap-2 bg-foxbg p-4 rounded-md items-center w-full min-h-[200px] min-w-[300px]">
           <h2 className="text-xl font-semibold">Quote Editor</h2>
 
           {draftQuote.lines.map((line, i) => {
@@ -117,19 +117,17 @@ export default function AddQuotePage() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-2 w-3/4 ">
+      <div className="flex flex-col items-center justify-center gap-2 mt-10">
         <h2 className="text-xl font-semibold">Quote Preview:</h2>
 
-        <div className="flex flex-col gap-2 bg-foxbg p-4 rounded-md w-[300px] min-h-[100px]">
+        <div className="flex flex-col gap-2 bg-foxbg p-4 rounded-md w-[300px] min-h-[100px] ">
           {draftQuote.lines.map((line, index) => (
             <QuoteCardContent key={line.text + index} line={line} />
           ))}
         </div>
-      </div>
 
-      <button className="bg-foxdark text-white text-semibold text-2xl px-4 py-2 rounded-md hover:bg-foxdark/80">
-        Save Quote
-      </button>
+        <button className="bg-green-500 text-white text-semibold text-2xl px-4 py-2 rounded-md ">Save Quote</button>
+      </div>
     </div>
   );
 }
@@ -165,7 +163,7 @@ function AddButton({ onClick, children }: AddButtonProps) {
   return (
     <button
       type="button"
-      className="bg-foxdark text-white px-2 py-2 rounded-md text-2xl cursor-pointer hover:opacity-80 h-fit w-full"
+      className="bg-foxdark text-white px-2 py-2 rounded-md text-2xl cursor-pointer hover:opacity-80 h-fit w-full md:w-[200px]"
       onClick={onClick}>
       {children}
     </button>

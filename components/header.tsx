@@ -15,7 +15,7 @@ export default function Header() {
         <h1 className="text-6xl lg:text-8xl">The Fox Archives</h1>
         <p className="text-2xl lg:text-4xl">An ongoing collection of quotes from Mr. Ryan Fox</p>
         <button
-          className="bg-foxdark text-white px-4 py-2 rounded-md hover:bg-foxdark/80"
+          className="bg-foxdark text-white text-semibold text-2xl px-4 py-2 rounded-md hover:bg-foxdark/80"
           onClick={() => {
             router.push('/add-quote');
           }}>
