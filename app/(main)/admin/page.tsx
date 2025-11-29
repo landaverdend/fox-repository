@@ -1,4 +1,3 @@
-import { stackServerApp } from "@/stack/server";
 
 export default async function AdminPage() {
 

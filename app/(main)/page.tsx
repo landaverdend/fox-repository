@@ -1,6 +1,6 @@
+import Header from '@/components/header';
 import QuotesTable from '@/components/quotes-table';
 import QuotesTableSkeleton from '@/components/quotes-table-skeleton';
-import Image from 'next/image';
 import { Suspense } from 'react';
 
 export const dynamic = 'force-dynamic';
@@ -8,7 +8,8 @@ export const dynamic = 'force-dynamic';
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center bg-foxdarkbg gap-16">
-      <div className="flex flex-col md:flex-row-reverse items-center justify-center text-slate mt-5">
+      <Header />
+      {/* <div className="flex flex-col md:flex-row-reverse items-center justify-center text-slate mt-5">
         <span className=" bg-foxdarkbg relative w-[300px] h-[450px] ">
           <Image src="/fox_standing.png" alt="Fox" className="" fill />
         </span>
@@ -17,7 +18,7 @@ export default function Home() {
           <h1 className="text-6xl lg:text-8xl">The Fox Archives</h1>
           <p className="text-2xl lg:text-4xl">An ongoing collection of quotes from Mr. Ryan Fox</p>
         </div>
-      </div>
+      </div> */}
       <Suspense fallback={<QuotesTableSkeleton />}>
         <QuotesTable />
       </Suspense>
