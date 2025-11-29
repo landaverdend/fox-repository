@@ -1,131 +1,173 @@
 'use client';
 
 import { QuoteCardContent } from '@/components/quote-card';
-import { ParsedQuote } from '@/lib/quoteParser';
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
+import { DialogueBlock, ParsedQuote } from '@/lib/quoteParser';
 import { useState } from 'react';
 
 export default function AddQuotePage() {
   const [draftQuote, setDraftQuote] = useState<ParsedQuote>({ lines: [] });
 
-  const [directQuote, setDirectQuote] = useState<string>('');
-  const [context, setContext] = useState<string>('');
-
-  const [speaker, setSpeaker] = useState<string>('');
-  const [dialogueText, setDialogueText] = useState<string>('');
+  const removeIndex = (index: number) => {
+    setDraftQuote((prev) => {
+      const newLines = [...prev.lines];
+      newLines.splice(index, 1);
+      return { lines: newLines };
+    });
+  };
 
   return (
-    <div className="bg-foxdarkbg min-h-screen flex flex-col items-center gap-20 ">
+    <div className="bg-foxdarkbg min-h-screen flex flex-col items-center gap-20 text-slate">
       <div className="mt-10 flex flex-col gap-4 items-center">
-        <h1 className="text-2xl font-bold">Quote Builder</h1>
-
         <div className="flex flex-col gap-2 justify-center items-center">
-          <Disclosure>
-            <DisclosureButton className="bg-foxdark text-white py-2 px-4 rounded-md hover:bg-foxdark/80">
-              Direct Quote Entry
-            </DisclosureButton>
-            <DisclosurePanel className="flex flex-row bg-foxbg p-4 rounded-md gap-2 items-center">
-              <textarea
-                className="w-full p-2 rounded-md border border-foxdark"
-                placeholder="Enter your quote here"
-                value={directQuote}
-                onChange={(e) => setDirectQuote(e.target.value)}
-              />
-              <AddButton
-                onClick={() => {
-                  if (directQuote.trim() === '') return;
-                  setDraftQuote({ lines: [...draftQuote.lines, { type: 'text', text: directQuote.trim() }] });
-                  setDirectQuote('');
-                }}
-                text="+"
-              />
-            </DisclosurePanel>
-          </Disclosure>
+          <h2 className="text-xl font-semibold">Quote Blocks</h2>
+          <AddButton
+            onClick={() => {
+              setDraftQuote({ lines: [...draftQuote.lines, { type: 'text', text: '' }] });
+            }}>
+            Add Direct Quote Entry
+          </AddButton>
+          <AddButton
+            onClick={() => {
+              setDraftQuote({ lines: [...draftQuote.lines, { type: 'context', text: '' }] });
+            }}>
+            Add Context Entry
+          </AddButton>
+          <AddButton
+            onClick={() => {
+              setDraftQuote({ lines: [...draftQuote.lines, { type: 'dialogue', speaker: '', text: '' }] });
+            }}>
+            Add Dialogue Entry
+          </AddButton>
+        </div>
+        {/* Stack component for draft quote lines */}
+        <div className="flex flex-col gap-2 bg-foxbg p-4 rounded-md items-center w-full">
+          <h2 className="text-xl font-semibold">Quote Editor</h2>
 
-          <Disclosure>
-            <DisclosureButton className="bg-foxdark text-white py-2 px-4 rounded-md hover:bg-foxdark/80 ">
-              Context Entry
-            </DisclosureButton>
+          {draftQuote.lines.map((line, i) => {
+            switch (line.type) {
+              case 'dialogue':
+                return (
+                  <div key={i} className="flex flex-row gap-2 items-center justify-center bg-slate/50 rounded-md p-2">
+                    <div className="flex flex-col gap-2">
+                      <EditorInput
+                        placeholder="Enter Speaker Name..."
+                        value={(draftQuote.lines[i] as DialogueBlock).speaker}
+                        onChange={(e) => {
+                          setDraftQuote((prev) => {
+                            const newLines = [...prev.lines];
+                            newLines[i] = { type: 'dialogue', speaker: e.target.value, text: prev.lines[i].text };
+                            return { lines: newLines };
+                          });
+                        }}
+                      />
+                      <EditorInput
+                        placeholder="Enter Dialogue..."
+                        value={draftQuote.lines[i].text}
+                        onChange={(e) => {
+                          setDraftQuote((prev) => {
+                            const newLines = [...prev.lines];
+                            const speaker = (newLines[i] as DialogueBlock).speaker || '<Unknown Speaker>';
+                            newLines[i] = { type: 'dialogue', speaker: speaker, text: e.target.value };
+                            return { lines: newLines };
+                          });
+                        }}
+                      />
+                    </div>
 
-            <DisclosurePanel className="flex flex-row bg-foxbg p-4 rounded-md gap-2 items-center ">
-              <textarea
-                className="w-full p-2 rounded-md border border-foxdark"
-                placeholder="Enter your context here"
-                value={context}
-                onChange={(e) => setContext(e.target.value)}
-              />
-              <AddButton
-                onClick={() => {
-                  if (context.trim() === '') return;
-
-                  setDraftQuote({ lines: [...draftQuote.lines, { type: 'context', text: context.trim() }] });
-                  setContext('');
-                }}
-                text="+"
-              />
-            </DisclosurePanel>
-          </Disclosure>
-          <Disclosure>
-            <DisclosureButton className="bg-foxdark text-white py-2 px-4 rounded-md hover:bg-foxdark/80 ">
-              Dialogue Entry
-            </DisclosureButton>
-            <DisclosurePanel className="flex flex-col bg-foxbg p-4 rounded-md gap-2 items-center w-full">
-              <input
-                type="text"
-                className="w-full p-2 rounded-md border border-foxdark"
-                placeholder="Speaker Name"
-                value={speaker}
-                onChange={(e) => setSpeaker(e.target.value)}
-              />
-              <input
-                type="text"
-                className="w-full p-2 rounded-md border border-foxdark"
-                placeholder="Dialogue Text"
-                value={dialogueText}
-                onChange={(e) => setDialogueText(e.target.value)}
-              />
-              <AddButton
-                onClick={() => {
-                  if (speaker.trim() === '' || dialogueText.trim() === '') return;
-
-                  setDraftQuote({
-                    lines: [...draftQuote.lines, { type: 'dialogue', speaker: speaker, text: dialogueText.trim() }],
-                  });
-                  // clear the rest
-                  setSpeaker('');
-                  setDialogueText('');
-                }}
-                text="+"
-              />
-            </DisclosurePanel>
-          </Disclosure>
+                    <RemoveButton onClick={() => removeIndex(i)} />
+                  </div>
+                );
+              case 'context':
+                return (
+                  <div key={i} className="flex flex-row gap-2 items-center border bg-slate/50 rounded-md p-2">
+                    <EditorInput
+                      value={draftQuote.lines[i].text}
+                      onChange={(e) => {
+                        setDraftQuote((prev) => {
+                          const newLines = [...prev.lines];
+                          newLines[i] = { type: 'context', text: e.target.value };
+                          return { lines: newLines };
+                        });
+                      }}
+                      placeholder="Enter context entry..."
+                    />
+                    <RemoveButton onClick={() => removeIndex(i)} />
+                  </div>
+                );
+              default:
+              case 'text':
+                return (
+                  <div key={i} className="flex flex-row gap-2 items-center bg-slate/50 rounded-md p-2">
+                    <EditorInput
+                      value={draftQuote.lines[i].text}
+                      onChange={(e) => {
+                        setDraftQuote((prev) => {
+                          const newLines = [...prev.lines];
+                          newLines[i] = { type: 'text', text: e.target.value };
+                          return { lines: newLines };
+                        });
+                      }}
+                      placeholder="Enter direct quote entry..."
+                    />
+                    <RemoveButton onClick={() => removeIndex(i)} />
+                  </div>
+                );
+            }
+          })}
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-2 w-3/4">
+      <div className="flex flex-col items-center justify-center gap-2 w-3/4 ">
         <h2 className="text-xl font-semibold">Quote Preview:</h2>
 
-        <div className="flex flex-col gap-2 bg-foxbg p-4 rounded-md w-[300px]">
+        <div className="flex flex-col gap-2 bg-foxbg p-4 rounded-md w-[300px] min-h-[100px]">
           {draftQuote.lines.map((line, index) => (
             <QuoteCardContent key={line.text + index} line={line} />
           ))}
         </div>
       </div>
+
+      <button className="bg-foxdark text-white text-semibold text-2xl px-4 py-2 rounded-md hover:bg-foxdark/80">
+        Save Quote
+      </button>
     </div>
+  );
+}
+
+type InputProps = {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+};
+function EditorInput({ value, onChange, placeholder }: InputProps) {
+  return <input value={value} onChange={onChange} placeholder={placeholder ?? ''} className="py-2 rounded-md  px-2" />;
+}
+
+type RemoveButtonProps = {
+  onClick: () => void;
+};
+function RemoveButton({ onClick }: RemoveButtonProps) {
+  return (
+    <button
+      type="button"
+      className="bg-red-400 text-white px-2 pb-1 pt-[2px] rounded-md text-2xl cursor-pointer hover:opacity-80 h-fit text-center"
+      onClick={onClick}>
+      x
+    </button>
   );
 }
 
 type AddButtonProps = {
   onClick: () => void;
-  text: string;
+  children: React.ReactNode;
 };
-function AddButton({ onClick, text }: AddButtonProps) {
+function AddButton({ onClick, children }: AddButtonProps) {
   return (
     <button
       type="button"
-      className="bg-foxdark text-white px-4 py-2 rounded-md hover:bg-foxdark/80 text-2xl cursor-pointer hover:opacity-80 h-fit"
+      className="bg-foxdark text-white px-2 py-2 rounded-md text-2xl cursor-pointer hover:opacity-80 h-fit w-full"
       onClick={onClick}>
-      {text}
+      {children}
     </button>
   );
 }
