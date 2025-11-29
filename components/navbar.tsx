@@ -9,15 +9,21 @@ type NavbarProps = {};
 export default function Navbar({}: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const stackApp = useStackApp();
-  const user = useUser();
 
   useEffect(() => {
-    user?.hasPermission('admin').then((hasPermission) => {
-      setIsAdmin(hasPermission);
+    stackApp.getUser().then((user) => {
+      if (user?.hasPermission('admin')) {
+        setIsAdmin(true);
+      }
+
+      if (user) {
+        setIsSignedIn(true);
+      }
     });
-  }, [user]);
+  }, []);
 
   const handleLogout = async () => {
     await stackApp.signOut();
@@ -72,7 +78,7 @@ export default function Navbar({}: NavbarProps) {
               </li>
             )}
 
-            {user ? (
+            {isSignedIn ? (
               <MenuItem href="/" onClick={handleLogout}>
                 Logout
               </MenuItem>
