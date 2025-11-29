@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { useStackApp, useUser } from '@stackframe/stack';
+import { useStackApp } from '@stackframe/stack';
 import router from 'next/router';
 
 type NavbarProps = {};

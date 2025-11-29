@@ -1,10 +1,9 @@
 'use client';
 import Image from 'next/image';
-import { useState } from 'react';
-import Modal from './modal';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="flex flex-col md:flex-row-reverse items-center justify-center text-slate mt-5">
@@ -18,7 +17,7 @@ export default function Header() {
         <button
           className="bg-foxdark text-white px-4 py-2 rounded-md hover:bg-foxdark/80"
           onClick={() => {
-            setIsOpen(true);
+            router.push('/add-quote');
           }}>
           Add Quote
         </button>

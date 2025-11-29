@@ -25,7 +25,7 @@ export default function QuoteCard({ quote, className }: QCProps) {
   );
 }
 
-function QuoteCardContent({ line }: { line: ParsedQuoteLine }) {
+export function QuoteCardContent({ line }: { line: ParsedQuoteLine }) {
   switch (line.type) {
     case 'context':
       return <p className="text-slate text-md italic self-center">({line.text})</p>;
