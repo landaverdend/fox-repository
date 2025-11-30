@@ -7,7 +7,7 @@ type QuotesTableProps = {
   quotes: QuoteWithReactions[];
 };
 export default function QuotesTable({ quotes }: QuotesTableProps) {
-  // Grab all of the quotes from the database
+
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:w-3/4">

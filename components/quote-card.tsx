@@ -15,6 +15,8 @@ export default function QuoteCard({ quote, className }: QCProps) {
   const linesLength = parsedQuote.lines.length;
   const hasDialogue = parsedQuote.lines.some((line) => line.type === 'dialogue');
 
+  console.log(quote);
+
   return (
     <div
       className={`relative bg-foxbg p-4 rounded-md ${className} flex flex-col gap-2  
@@ -24,10 +26,20 @@ export default function QuoteCard({ quote, className }: QCProps) {
         <QuoteCardContent key={line.text} line={line} />
       ))}
 
-      <Popover>
-        <PopoverButton
-          className="absolute bottom-[-12px] left-[5px] px-2 pb-[1px] bg-foxlight/80 border border-foxdark text-white rounded-full text-sm select-none cursor-pointer hover:bg-foxlight/60"
-          onClick={(e) => {}}>
+      {/* Drawer of reactions */}
+      <div className="absolute bottom-[-12px] left-[40px] flex flex-row gap-1">
+        {quote.reactions.map((reaction) => (
+          <div
+            key={reaction.emoji}
+            className="flex flex-row rounded-md bg-foxdark px-2 select-none cursor-pointer hover:bg-foxdark/80">
+            <span className="text-xl">{reaction.emoji}</span>
+            <span className="text-white text-semibold">{reaction.count}</span>
+          </div>
+        ))}
+      </div>
+
+      <Popover className="sm:hidden">
+        <PopoverButton className="absolute bottom-[-12px] left-[5px] px-2 pb-[1px] bg-foxlight/80 border border-foxdark text-white rounded-full text-sm select-none cursor-pointer hover:bg-foxlight/60">
           +
         </PopoverButton>
 

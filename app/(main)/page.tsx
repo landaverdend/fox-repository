@@ -19,7 +19,6 @@ export default function Home() {
     if (!clientToken) return;
 
     setIsLoading(true);
-    console.log('client token', clientToken);
     getQuotes(clientToken)
       .then((quotes) => {
         setQuotes(quotes);
