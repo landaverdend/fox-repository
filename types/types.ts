@@ -19,4 +19,12 @@ export type Quote = {
   uploadedBy: NeonAuthUser;
 };
 
+export type PendingQuote = {
+  quote: string;
+  id: number;
+  ipAddress: string;
+  uploadedAt: Date;
+  quoteHash: string;
+};
+
 export type StackPermission = 'admin' | 'readonly';
