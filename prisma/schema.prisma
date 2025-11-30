@@ -31,6 +31,7 @@ model quotes {
   quote        String
   uploadedAt   DateTime @default(now())
   uploadedById String
+  quoteHash    String
 
   uploadedBy neon_auth_users @relation(fields: [uploadedById], references: [id])
 
@@ -41,6 +42,9 @@ model pending_quotes {
   id         Int      @id @default(autoincrement())
   quote      String
   uploadedAt DateTime @default(now())
+  quoteHash  String
+  ipAddress  String
+
 
   @@schema("public")
 }

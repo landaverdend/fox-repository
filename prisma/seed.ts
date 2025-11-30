@@ -1,3 +1,4 @@
+import { hashString } from '../lib/utils';
 import prisma from '../lib/prisma';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
@@ -37,9 +38,21 @@ async function main() {
       data: newQuotes.map((quote) => ({
         quote,
         uploadedById: user.id,
+        quoteHash: hashString(quote),
       })),
     });
   }
+
+  // Create dummy pending quotes:
+  let pendingQuotes = ['This is a pending quote', 'This is another pending quote', 'This is a third pending quote'];
+
+  await prisma.pending_quotes.createMany({
+    data: pendingQuotes.map((quote) => ({
+      quote,
+      quoteHash: hashString(quote),
+      ipAddress: '127.0.0.1',
+    })),
+  });
 }
 
 main()

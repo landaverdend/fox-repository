@@ -5,8 +5,34 @@
 - `pip`
 
 
+## Getting Started
+
+```
+pnpm i
+```
 
 
+
+
+## Installing DB
+
+Generate ORM Files locally
+
+```
+pnpm prisma generate
+```
+
+Connect to DB instance and write schema
+
+```
+pnpm prisma db push
+```
+
+Seed Database
+
+```
+pnpm prisma db seed
+```
 
 ## Adding User Permission
 
