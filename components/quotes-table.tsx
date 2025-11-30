@@ -1,14 +1,12 @@
-import prisma from '@/lib/prisma';
+'use client';
 import QuoteCard from './quote-card';
+import { Quote } from '@/types/types';
 
-export default async function QuotesTable() {
+type QuotesTableProps = {
+  quotes: Quote[];
+};
+export default function QuotesTable({ quotes }: QuotesTableProps) {
   // Grab all of the quotes from the database
-  const quotes = await prisma.quotes.findMany({
-    include: {
-      uploadedBy: true,
-    },
-    orderBy: { uploadedAt: 'desc' },
-  });
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:w-3/4">
