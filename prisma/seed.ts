@@ -46,11 +46,38 @@ async function main() {
   // Create dummy pending quotes:
   let pendingQuotes = ['This is a pending quote', 'This is another pending quote', 'This is a third pending quote'];
 
-  await prisma.pending_quotes.createMany({
-    data: pendingQuotes.map((quote) => ({
-      quote,
-      quoteHash: hashString(quote),
+  const existingPendingQuotes = await prisma.pending_quotes.findMany({
+    where: { quote: { in: pendingQuotes } },
+    select: { quote: true },
+  });
+
+  const existingPendingSet = new Set(existingPendingQuotes.map((eq) => eq.quote));
+  const newPendingQuotes = pendingQuotes.filter((q) => !existingPendingSet.has(q));
+
+  if (newPendingQuotes.length > 0) {
+    await prisma.pending_quotes.createMany({
+      data: newPendingQuotes.map((quote) => ({
+        quote,
+        quoteHash: hashString(quote),
+        ipAddress: '127.0.0.1',
+      })),
+    });
+  }
+
+  // Create test reactions:
+
+  const quoteEntities = await prisma.quotes.findMany({
+    select: { id: true },
+    take: 10,
+  });
+
+  const reactionEmojis = ['👍', '👎', '😂', '🤔', '🤮', '🤢', '🤡', '🤠', '🤡', '🤡'];
+  await prisma.reactions.createMany({
+    data: quoteEntities.map((quote, i) => ({
+      quoteId: quote.id,
+      emoji: reactionEmojis[i % reactionEmojis.length],
       ipAddress: '127.0.0.1',
+      clientToken: `test-client-token-${i}`,
     })),
   });
 }

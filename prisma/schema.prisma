@@ -20,7 +20,8 @@ model neon_auth_users {
   updated_at DateTime? @db.Timestamptz(6)
   deleted_at DateTime? @db.Timestamptz(6)
 
-  quotes quotes[]
+  quotes    quotes[]
+  reactions reactions[]
 
   @@map("users_sync")
   @@schema("neon_auth")
@@ -35,6 +36,8 @@ model quotes {
 
   uploadedBy neon_auth_users @relation(fields: [uploadedById], references: [id])
 
+  reactions reactions[]
+
   @@schema("public")
 }
 
@@ -45,6 +48,25 @@ model pending_quotes {
   quoteHash  String
   ipAddress  String
 
+  @@schema("public")
+}
 
+model reactions {
+  id      Int    @id @default(autoincrement())
+  quoteId Int
+  emoji   String
+
+  clientToken String?
+  userId      String?
+  ipAddress   String
+  createdAt   DateTime @default(now())
+
+  quote quotes @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+
+  user neon_auth_users? @relation(fields: [userId], references: [id])
+
+  // Prevent duplicate reactions from same client
+  @@unique([quoteId, emoji, clientToken])
+  @@index([quoteId])
   @@schema("public")
 }
