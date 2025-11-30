@@ -1,4 +1,5 @@
 'use client';
+import { useClientToken } from './client-token-provider';
 import QuoteCard from './quote-card';
 import { Quote } from '@/types/types';
 
@@ -7,6 +8,8 @@ type QuotesTableProps = {
 };
 export default function QuotesTable({ quotes }: QuotesTableProps) {
   // Grab all of the quotes from the database
+  const clientToken = useClientToken();
+  console.log(clientToken);
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:w-3/4">
