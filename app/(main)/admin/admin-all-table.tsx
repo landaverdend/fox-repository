@@ -1,12 +1,12 @@
 'use client';
-import { Quote } from '@/types/types';
+import { QuoteEntity } from '@/types/types';
 import { deleteQuote } from './actions';
 import { useRouter } from 'next/navigation';
 import { MiniQuoteCard } from '@/components/quote-card';
 import { parseQuote } from '@/lib/quoteParser';
 
 type AATProps = {
-  allQuotes: Quote[];
+  allQuotes: QuoteEntity[];
 };
 
 export default function AllQuotesTable({ allQuotes }: AATProps) {

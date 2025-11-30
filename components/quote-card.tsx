@@ -1,12 +1,12 @@
 'use client';
 
 import { ParsedQuote, ParsedQuoteLine, parseQuote } from '@/lib/quoteParser';
-import { Quote } from '@/types/types';
+import { QuoteWithReactions } from '@/types/types';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import EmojiPicker from 'emoji-picker-react';
 
 type QCProps = {
-  quote: Quote;
+  quote: QuoteWithReactions;
   className?: string;
 };
 export default function QuoteCard({ quote, className }: QCProps) {

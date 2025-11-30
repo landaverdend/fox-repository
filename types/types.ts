@@ -10,7 +10,7 @@ export type NeonAuthUser = {
   deleted_at: Date | null;
 };
 
-export type Quote = {
+export type QuoteEntity = {
   id: number;
   quote: string;
   quoteHash: string;
@@ -18,6 +18,19 @@ export type Quote = {
 
   uploadedById: string;
   uploadedBy?: NeonAuthUser | null;
+};
+
+// DTO object for UI
+export type QuoteWithReactions = {
+  id: number;
+  quote: string;
+  uploadedAt: Date;
+  uploadedByName: string | null;
+  reactions: {
+    emoji: string;
+    count: number;
+  }[];
+  canReact: boolean;
 };
 
 export type PendingQuote = {

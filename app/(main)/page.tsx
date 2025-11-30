@@ -3,17 +3,17 @@
 import Header from '@/components/header';
 import QuotesTable from '@/components/quotes-table';
 import QuotesTableSkeleton from '@/components/quotes-table-skeleton';
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getQuotes } from './actions';
-import { Quote } from '@/types/types';
 import { useClientToken } from '@/components/client-token-provider';
+import { QuoteWithReactions } from '@/types/types';
 export const dynamic = 'force-dynamic';
 
 export default function Home() {
   const clientToken = useClientToken() ?? '';
 
   const [isLoading, setIsLoading] = useState(true);
-  const [quotes, setQuotes] = useState<Quote[]>([]);
+  const [quotes, setQuotes] = useState<QuoteWithReactions[]>([]);
 
   useEffect(() => {
     if (!clientToken) return;
