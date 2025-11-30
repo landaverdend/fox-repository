@@ -1,8 +1,9 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { setCookie } from 'cookies-next'; // or js-cookie
 
-const CLIENT_TOKEN_KEY = 'fox-client-token';
+export const CLIENT_TOKEN_KEY = 'fox-client-token';
 
 const ClientTokenContext = createContext<string | null>(null);
 
@@ -23,7 +24,7 @@ export default function ClientTokenProvider({ children }: ClientTokenProviderPro
         token = crypto.randomUUID();
         localStorage.setItem(CLIENT_TOKEN_KEY, token);
       }
-
+      setCookie(CLIENT_TOKEN_KEY, token, {});
       setClientToken(token);
     }
   }, []);
