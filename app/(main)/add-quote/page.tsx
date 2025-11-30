@@ -1,7 +1,7 @@
 'use client';
 
 import { QuoteCardContent } from '@/components/quote-card';
-import { DialogueBlock, ParsedQuote } from '@/lib/quoteParser';
+import { DialogueBlock, ParsedQuote, parseQuote, serializeQuote } from '@/lib/quoteParser';
 import { useState } from 'react';
 
 export default function AddQuotePage() {
@@ -13,6 +13,13 @@ export default function AddQuotePage() {
       newLines.splice(index, 1);
       return { lines: newLines };
     });
+  };
+
+  const saveQuote = () => {
+    const serializedQuote = serializeQuote(draftQuote);
+
+    
+
   };
 
   return (
@@ -126,7 +133,9 @@ export default function AddQuotePage() {
           ))}
         </div>
 
-        <button className="bg-green-500 text-white text-semibold text-2xl px-4 py-2 rounded-md ">Save Quote</button>
+        <button className="bg-green-500 text-white text-semibold text-2xl px-4 py-2 rounded-md " onClick={saveQuote}>
+          Save Quote
+        </button>
       </div>
     </div>
   );

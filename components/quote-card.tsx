@@ -1,6 +1,6 @@
 'use client';
 
-import parseQuote, { ParsedQuoteLine } from '@/lib/quoteParser';
+import { ParsedQuoteLine, parseQuote } from '@/lib/quoteParser';
 import { Quote } from '@/types/types';
 
 type QCProps = {

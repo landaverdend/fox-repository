@@ -32,7 +32,7 @@ const SPEAKER_TAG_END = '</speaker>';
  * @param quote
  * @returns
  */
-export default function parseQuote(quote: string): ParsedQuote {
+export function parseQuote(quote: string): ParsedQuote {
   const lines: ParsedQuoteLine[] = [];
   let i = 0;
 
@@ -103,4 +103,24 @@ export default function parseQuote(quote: string): ParsedQuote {
   return {
     lines,
   } as ParsedQuote;
+}
+
+export function serializeQuote(quote: ParsedQuote): string {
+  let serialized = '';
+
+  quote.lines.forEach((line) => {
+    switch (line.type) {
+      case 'context':
+        serialized += `${CONTEXT_TAG}${line.text}${CONTEXT_TAG_END}`;
+        break;
+      case 'dialogue':
+        serialized += `<speaker name="${line.speaker}">${line.text}</speaker>`;
+        break;
+      case 'text':
+        serialized += line.text;
+        break;
+    }
+  });
+
+  return serialized;
 }
