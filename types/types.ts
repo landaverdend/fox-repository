@@ -13,10 +13,11 @@ export type NeonAuthUser = {
 export type Quote = {
   id: number;
   quote: string;
-
+  quoteHash: string;
   uploadedAt: Date;
 
-  uploadedBy: NeonAuthUser;
+  uploadedById: string;
+  uploadedBy?: NeonAuthUser | null;
 };
 
 export type PendingQuote = {

@@ -1,4 +1,3 @@
-import Navbar from '@/components/navbar';
 import { stackServerApp } from '@/stack/server';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';

@@ -47,3 +47,17 @@ export async function rejectQuote(pendingQuoteId: number) {
 
   return true;
 }
+
+export async function deleteQuote(quoteId: number) {
+  const user = await stackServerApp.getUser();
+
+  if (!user || !(await user.hasPermission('admin'))) {
+    return false;
+  }
+
+  await prisma.quotes.delete({
+    where: { id: quoteId },
+  });
+
+  return true;
+}
