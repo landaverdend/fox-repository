@@ -1,4 +1,6 @@
-'use server';
+import { QuoteCardContent } from '@/components/quote-card';
+import { ParsedQuote, parseQuote } from '@/lib/quoteParser';
+import prisma from '@/lib/prisma';
 
 export default async function AdminPage() {
   const pendingQuotes = await prisma?.pending_quotes.findMany({
@@ -20,9 +22,12 @@ export default async function AdminPage() {
           </thead>
           <tbody className="bg-gray-200 border-fox">
             {pendingQuotes?.map((quote) => {
+              const parsedQuote = parseQuote(quote.quote);
               return (
-                <tr key={quote.id} className="">
-                  <td className="p-2">{quote.quote}</td>
+                <tr key={quote.id} className="text-sm sm:text-lg">
+                  <td className="p-2">
+                    <MiniQuoteCard parsedQuote={parsedQuote} />
+                  </td>
                   <td className="p-2">{quote.ipAddress}</td>
                   <td className="flex flex-col gap-2 sm:flex-row p-2">
                     <button className="bg-green-400 text-white text-semibold text-1xl px-4 py-2 rounded-md hover:bg-green-400/80">
@@ -38,6 +43,16 @@ export default async function AdminPage() {
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+function MiniQuoteCard({ parsedQuote }: { parsedQuote: ParsedQuote }) {
+  return (
+    <div className="flex flex-col gap-1">
+      {parsedQuote.lines.map((line) => (
+        <QuoteCardContent key={line.text} line={line} />
+      ))}
     </div>
   );
 }

@@ -1,5 +1,3 @@
-'use client';
-
 export type ContextBlock = {
   type: 'context';
   text: string;
