@@ -15,12 +15,13 @@ export default function QuoteCard({ quote, className }: QCProps) {
 
   return (
     <div
-      className={`bg-foxbg p-4 rounded-md ${className} flex flex-col gap-2  
+      className={`relative bg-foxbg p-4 rounded-md ${className} flex flex-col gap-2  
       ${linesLength > 1 ? 'justify-start' : 'justify-center'}
       ${hasDialogue ? 'items-start' : 'items-center'}`}>
       {parsedQuote.lines.map((line) => (
         <QuoteCardContent key={line.text} line={line} />
       ))}
+      <div className="absolute bottom-[-12px] left-[5px] px-2 pb-[1px] bg-foxlight border border-foxdark text-white rounded-full text-sm">+</div>
     </div>
   );
 }
