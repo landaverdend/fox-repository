@@ -20,7 +20,7 @@ model neon_auth_users {
   updated_at DateTime? @db.Timestamptz(6)
   deleted_at DateTime? @db.Timestamptz(6)
 
-  quotes     quotes[]
+  quotes quotes[]
 
   @@map("users_sync")
   @@schema("neon_auth")
@@ -32,7 +32,15 @@ model quotes {
   uploadedAt   DateTime @default(now())
   uploadedById String
 
-  uploadedBy   neon_auth_users @relation(fields: [uploadedById], references: [id])
+  uploadedBy neon_auth_users @relation(fields: [uploadedById], references: [id])
+
+  @@schema("public")
+}
+
+model pending_quotes {
+  id         Int      @id @default(autoincrement())
+  quote      String
+  uploadedAt DateTime @default(now())
 
   @@schema("public")
 }

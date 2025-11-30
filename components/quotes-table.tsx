@@ -7,6 +7,7 @@ export default async function QuotesTable() {
     include: {
       uploadedBy: true,
     },
+    orderBy: { uploadedAt: 'desc' },
   });
 
   return (

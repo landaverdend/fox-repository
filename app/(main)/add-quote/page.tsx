@@ -1,8 +1,9 @@
 'use client';
 
 import { QuoteCardContent } from '@/components/quote-card';
-import { DialogueBlock, ParsedQuote, parseQuote, serializeQuote } from '@/lib/quoteParser';
+import { DialogueBlock, ParsedQuote, serializeQuote } from '@/lib/quoteParser';
 import { useState } from 'react';
+import { saveQuoteToDB } from './actions';
 
 export default function AddQuotePage() {
   const [draftQuote, setDraftQuote] = useState<ParsedQuote>({ lines: [] });
@@ -15,11 +16,12 @@ export default function AddQuotePage() {
     });
   };
 
-  const saveQuote = () => {
+  const saveQuote = async () => {
     const serializedQuote = serializeQuote(draftQuote);
 
-    
+    const resp = await saveQuoteToDB(serializedQuote);
 
+    alert(resp);
   };
 
   return (
