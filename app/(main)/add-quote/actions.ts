@@ -34,8 +34,6 @@ export async function saveQuoteToDB(serializedQuote: string) {
     const realIp = headersList.get('x-real-ip');
     const ipAddress = forwardedFor?.split(',')[0].trim() || realIp || 'unknown';
 
-    console.log('ipAddress', ipAddress);
-
     await prisma.pending_quotes.create({
       data: {
         quote: serializedQuote,
