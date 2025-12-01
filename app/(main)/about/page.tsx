@@ -1,14 +1,17 @@
 'use client';
 
+import DonateButton from '@/components/donate-button';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import Image from 'next/image';
+import { QRCodeSVG } from 'qrcode.react';
+import { useState } from 'react';
 
 export default function About() {
   const pStyle = 'text-md text-left sm:text-[16px] ';
 
   return (
-    <main className="flex flex-col items-center justify-center text-slate bg-foxdarkbg">
+    <main className="flex flex-col items-center justify-center text-slate bg-foxdarkbg mb-4">
       <div className="flex flex-col gap-5 items-center justify-center mx-4 mt-10 lg:flex-row sm:gap-10 lg:items-start sm:mx-20 md:mx-32 xl:mx-40">
-
         <div className="flex justify-end">
           <span className="block bg-foxbg border-2 border-foxdark rounded-md relative mt-5 w-[300px] h-[450px] sm:w-[350px] sm:h-[500px] lg:w-[400px] lg:h-[600px]">
             <Image src="/fox_reading.png" alt="Fox" fill />
@@ -62,6 +65,8 @@ export default function About() {
           <p className={pStyle}>
             The <b>Fox Archive</b> is not the past recorded. It is the past <i className="font-semibold">selected.</i>
           </p>
+
+          <DonateButton />
         </span>
       </div>
     </main>

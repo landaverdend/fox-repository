@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import DonateButton from './donate-button';
 
 export default function Header() {
   const router = useRouter();
@@ -14,7 +15,6 @@ export default function Header() {
       </div>
 
       <div className="flex flex-col items-center justify-center mx-10 gap-8 sm:gap-16">
-
         <div className="flex flex-col items-center justify-center gap-5">
           <h1 className="text-4xl font-semibold sm:text-6xl lg:text-7xl text-center sm:text-left">The Fox Archives</h1>
           <p className="text-2xl lg:text-4xl text-left">
@@ -23,14 +23,17 @@ export default function Header() {
           </p>
         </div>
 
-        <button
-          className="bg-foxdark text-white text-semibold text-2xl px-4 py-2 rounded-md hover:bg-foxdark/80"
-          onClick={() => {
-            router.push('/add-quote');
-          }}>
-          Add Quote
-        </button>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <button
+            className="bg-foxdark text-white text-semibold text-2xl px-4 py-2 rounded-md hover:bg-foxdark/80"
+            onClick={() => {
+              router.push('/add-quote');
+            }}>
+            Add Quote
+          </button>
 
+          <DonateButton />
+        </div>
       </div>
     </div>
   );
