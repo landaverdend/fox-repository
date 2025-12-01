@@ -156,13 +156,13 @@ export function QuoteCardContent({ line }: { line: ParsedQuoteLine }) {
       return <p className="text-slate text-sm sm:text-md italic self-center">({line.text})</p>;
     case 'dialogue':
       return (
-        <p className="text-slate text-sm sm:text-lg">
+        <p className="text-slate text-md sm:text-lg">
           <span className="font-bold">{line.speaker}:</span> &quot;{line.text}&quot;
         </p>
       );
     default:
     case 'text':
-      return <p className="text-slate text-sm sm:text-lg">&quot;{line.text}&quot;</p>;
+      return <p className="text-slate text-md sm:text-lg">&quot;{line.text}&quot;</p>;
   }
 }
 
