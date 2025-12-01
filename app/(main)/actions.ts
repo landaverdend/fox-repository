@@ -102,3 +102,36 @@ export async function addReaction(clientToken: string, emoji: string, quoteId: n
 
   return { success: true, message: '', createdReaction: newReaction };
 }
+
+type RemoveReactionResponse = {
+  success: boolean;
+  message: string;
+};
+export async function removeReaction(clientToken: string, emoji: string, quoteId: number): Promise<RemoveReactionResponse> {
+  const user = await stackServerApp.getUser();
+  if (!clientToken && !user) {
+    return { success: false, message: 'Missing client token or userId' };
+  }
+
+  // Use user id if available, otherwise use client token.
+  let existingReaction = null;
+  if (user) {
+    existingReaction = await prisma.reactions.findFirst({
+      where: { userId: user.id, quoteId, emoji },
+    });
+  }
+
+  if (!existingReaction) {
+    existingReaction = await prisma.reactions.findFirst({
+      where: { clientToken, quoteId, emoji },
+    });
+  }
+
+  if (!existingReaction) {
+    return { success: false, message: 'No reaction found to remove' };
+  }
+
+  await prisma.reactions.delete({ where: { id: existingReaction.id } });
+
+  return { success: true, message: '' };
+}

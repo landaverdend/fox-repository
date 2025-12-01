@@ -32,26 +32,32 @@ export default function Home() {
     setQuotes((prevQuotes) => {
       // Find the quote and update the reaction count.
       return prevQuotes.map((quote) => {
+        let newQuote = quote;
+
         if (quote.id === quoteId) {
+          // check if the reaction is already in the list
           const theReaction = quote.reactions.find((reaction) => reaction.emoji === emoji);
 
           if (theReaction) {
-            return {
+            newQuote = {
               ...quote,
-              reactions: quote.reactions.map((reaction) =>
-                reaction.emoji === emoji ? { ...reaction, count: reaction.count + count, clientReacted: count === 1 } : reaction
-              ),
+              reactions: quote.reactions
+                .map((reaction) =>
+                  reaction.emoji === emoji ? { ...reaction, count: reaction.count + count, clientReacted: count === 1 } : reaction
+                )
+                .filter((reaction) => reaction.count > 0),
               canReact: count === 1 ? false : true,
             };
           } else {
-            return {
+            newQuote = {
               ...quote,
               reactions: [...quote.reactions, { emoji, count: 1, clientReacted: true }],
               canReact: false,
             };
           }
         }
-        return quote;
+
+        return newQuote;
       });
     });
   };

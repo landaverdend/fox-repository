@@ -5,7 +5,7 @@ import { QuoteWithReactions } from '@/types/types';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import EmojiPicker from 'emoji-picker-react';
 import { useClientToken } from './client-token-provider';
-import { addReaction } from '@/app/(main)/actions';
+import { addReaction, removeReaction } from '@/app/(main)/actions';
 
 type QCProps = {
   quote: QuoteWithReactions;
@@ -31,8 +31,7 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
       onReactionAdded(quote.id, emoji, 1);
 
       const resp = await addReaction(clientToken, emoji, quote.id);
-      if (resp.success) {
-      } else {
+      if (!resp.success) {
         alert(resp.message);
         // Rollback the UI update
         onReactionAdded(quote.id, emoji, -1);
@@ -40,6 +39,28 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
     } catch (error) {
       console.error(error);
       alert('An error occurred with adding the reaction');
+    }
+  };
+
+  const handleRemoveReaction = async (emoji: string) => {
+    if (!clientToken) {
+      alert('Missing client token!');
+      return;
+    }
+
+    try {
+      // Optimistically update the UI
+      onReactionAdded(quote.id, emoji, -1);
+
+      const resp = await removeReaction(clientToken, emoji, quote.id);
+      if (!resp.success) {
+        alert(resp.message);
+        // Rollback the UI update
+        onReactionAdded(quote.id, emoji, 1);
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred with removing the reaction');
     }
   };
 
@@ -61,7 +82,12 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
             key={reaction.emoji}
             className={`flex flex-row rounded-md items-center gap-1 px-2 select-none cursor-pointer text-white ${
               reaction.clientReacted ? 'bg-[#e2e3f9] border-[#5761eb] border text-[#4450b9]' : 'bg-foxdark hover:bg-foxdark/80 '
-            }`}>
+            }`}
+            onClick={() => {
+              if (reaction.clientReacted) {
+                handleRemoveReaction(reaction.emoji);
+              }
+            }}>
             <span className="text-xl">{reaction.emoji}</span>
             <span className="text-semibold">{reaction.count}</span>
           </div>
