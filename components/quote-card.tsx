@@ -64,6 +64,14 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
     }
   };
 
+  const handleEmojiDrawerClick = (reaction: { emoji: string; clientReacted?: boolean | undefined; count: number }) => {
+    if (reaction.clientReacted) {
+      handleRemoveReaction(reaction.emoji);
+    } else if (quote.canReact) {
+      handleReactionClick(reaction.emoji);
+    }
+  };
+
   return (
     <div className={`${className} relative bg-foxbg p-4 rounded-md flex flex-col justify-between items-center gap-5`}>
       <div
@@ -81,13 +89,11 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
           <div
             key={reaction.emoji}
             className={`flex flex-row rounded-md items-center gap-1 px-2 select-none cursor-pointer text-white ${
-              reaction.clientReacted ? 'bg-[#e2e3f9] border-[#5761eb] border text-[#4450b9]' : 'bg-foxdark hover:bg-foxdark/80 '
+              reaction.clientReacted
+                ? 'bg-[#e2e3f9] border-[#5761eb] border text-[#4450b9]'
+                : 'bg-foxdark hover:bg-foxdark/80 border border-foxdark'
             }`}
-            onClick={() => {
-              if (reaction.clientReacted) {
-                handleRemoveReaction(reaction.emoji);
-              }
-            }}>
+            onClick={() => handleEmojiDrawerClick(reaction)}>
             <span className="text-xl">{reaction.emoji}</span>
             <span className="text-semibold">{reaction.count}</span>
           </div>
