@@ -10,8 +10,9 @@ import { addReaction } from '@/app/(main)/actions';
 type QCProps = {
   quote: QuoteWithReactions;
   className?: string;
+  onReactionAdded: (quoteId: number, emoji: string, count: 1 | -1) => void;
 };
-export default function QuoteCard({ quote, className }: QCProps) {
+export default function QuoteCard({ quote, className, onReactionAdded }: QCProps) {
   const clientToken = useClientToken() ?? '';
 
   const parsedQuote = parseQuote(quote.quote);
@@ -26,9 +27,15 @@ export default function QuoteCard({ quote, className }: QCProps) {
     }
 
     try {
+      // Optimistically update the UI
+      onReactionAdded(quote.id, emoji, 1);
+
       const resp = await addReaction(clientToken, emoji, quote.id);
-      if (!resp.success) {
+      if (resp.success) {
+      } else {
         alert(resp.message);
+        // Rollback the UI update
+        onReactionAdded(quote.id, emoji, -1);
       }
     } catch (error) {
       console.error(error);

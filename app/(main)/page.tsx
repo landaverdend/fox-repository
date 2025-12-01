@@ -28,10 +28,38 @@ export default function Home() {
       });
   }, [clientToken]);
 
+  const handleReactionAdded = (quoteId: number, emoji: string, count: 1 | -1) => {
+    setQuotes((prevQuotes) => {
+      // Find the quote and update the reaction count.
+      return prevQuotes.map((quote) => {
+        if (quote.id === quoteId) {
+          const theReaction = quote.reactions.find((reaction) => reaction.emoji === emoji);
+
+          if (theReaction) {
+            return {
+              ...quote,
+              reactions: quote.reactions.map((reaction) =>
+                reaction.emoji === emoji ? { ...reaction, count: reaction.count + count } : reaction
+              ),
+              canReact: count === 1 ? false : true,
+            };
+          } else {
+            return {
+              ...quote,
+              reactions: [...quote.reactions, { emoji, count: 1 }],
+              canReact: false,
+            };
+          }
+        }
+        return quote;
+      });
+    });
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center bg-foxdarkbg gap-16">
       <Header />
-      {isLoading ? <QuotesTableSkeleton /> : <QuotesTable quotes={quotes ?? []} />}
+      {isLoading ? <QuotesTableSkeleton /> : <QuotesTable quotes={quotes ?? []} onReactionAdded={handleReactionAdded} />}
     </main>
   );
 }

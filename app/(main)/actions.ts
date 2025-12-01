@@ -71,6 +71,7 @@ export async function addReaction(clientToken: string, emoji: string, quoteId: n
     return { success: false, message: 'Missing client token' };
   }
 
+  // Use user id if available, otherwise use client token.
   const existingReaction = user
     ? await prisma.reactions.findFirst({ where: { userId: user.id, quoteId } })
     : await prisma.reactions.findFirst({ where: { clientToken, quoteId } });
