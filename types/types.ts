@@ -29,6 +29,7 @@ export type QuoteWithReactions = {
   reactions: {
     emoji: string;
     count: number;
+    clientReacted?: boolean | undefined; // If the client reacted with this emoji, notify the UI to highlight it
   }[];
   canReact: boolean;
 };

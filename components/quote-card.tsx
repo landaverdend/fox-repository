@@ -59,9 +59,11 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
         {quote.reactions.map((reaction) => (
           <div
             key={reaction.emoji}
-            className="flex flex-row rounded-md bg-foxdark px-2 select-none cursor-pointer hover:bg-foxdark/80">
+            className={`flex flex-row rounded-md items-center gap-1 px-2 select-none cursor-pointer text-white ${
+              reaction.clientReacted ? 'bg-[#e2e3f9] border-[#5761eb] border text-[#4450b9]' : 'bg-foxdark hover:bg-foxdark/80 '
+            }`}>
             <span className="text-xl">{reaction.emoji}</span>
-            <span className="text-white text-semibold">{reaction.count}</span>
+            <span className="text-semibold">{reaction.count}</span>
           </div>
         ))}
       </div>

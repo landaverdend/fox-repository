@@ -39,14 +39,14 @@ export default function Home() {
             return {
               ...quote,
               reactions: quote.reactions.map((reaction) =>
-                reaction.emoji === emoji ? { ...reaction, count: reaction.count + count } : reaction
+                reaction.emoji === emoji ? { ...reaction, count: reaction.count + count, clientReacted: count === 1 } : reaction
               ),
               canReact: count === 1 ? false : true,
             };
           } else {
             return {
               ...quote,
-              reactions: [...quote.reactions, { emoji, count: 1 }],
+              reactions: [...quote.reactions, { emoji, count: 1, clientReacted: true }],
               canReact: false,
             };
           }

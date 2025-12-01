@@ -8,6 +8,7 @@ import { headers } from 'next/headers';
 // Combine the quote alongside reactions and variable that says whether the user can react to the quote.
 
 export async function getQuotes(clientToken: string): Promise<QuoteWithReactions[]> {
+  const user = await stackServerApp.getUser();
   // Grab all the quotes from the database.
   const queryResult = await prisma.quotes.findMany({
     include: {
@@ -20,6 +21,7 @@ export async function getQuotes(clientToken: string): Promise<QuoteWithReactions
         select: {
           emoji: true,
           clientToken: true,
+          userId: true,
         },
       },
     },
@@ -31,19 +33,22 @@ export async function getQuotes(clientToken: string): Promise<QuoteWithReactions
     const reactionMap = new Map<string, number>();
     let canReact = true;
 
+    let emojiClientReactedWith: string | undefined = undefined;
     quote.reactions.forEach((reaction) => {
       // Count reactions per emoji
       reactionMap.set(reaction.emoji, (reactionMap.get(reaction.emoji) || 0) + 1);
 
       // Check if this clientToken has already reacted
-      if (reaction.clientToken === clientToken) {
+      if (reaction.clientToken === clientToken || reaction?.userId === user?.id) {
         canReact = false;
+        emojiClientReactedWith = reaction.emoji;
       }
     });
 
     const reactions = Array.from(reactionMap.entries()).map(([emoji, count]) => ({
       emoji,
       count,
+      clientReacted: emoji === emojiClientReactedWith ? true : undefined,
     }));
 
     return {
