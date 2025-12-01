@@ -3,17 +3,20 @@
 import Image from 'next/image';
 
 export default function About() {
-  const pStyle = 'text-md text-left mx-4 sm:text-lg';
+  const pStyle = 'text-md text-left sm:text-[16px] ';
 
   return (
-    <main className="flex flex-col items-center text-slate bg-foxdarkbg">
-      <div className="flex flex-col gap-5 items-center justify-center mx-4 sm:flex-row sm:gap-10">
-        <span className="bg-foxbg border-2 border-foxdark rounded-md relative w-[300px] h-[450px] mt-5">
-          <Image src="/fox_standing.png" alt="Fox" className="" fill />
-        </span>
+    <main className="flex flex-col items-center justify-center text-slate bg-foxdarkbg">
+      <div className="flex flex-col gap-5 items-center justify-center mx-4 mt-10 lg:flex-row sm:gap-10 lg:items-start sm:mx-20 md:mx-32 xl:mx-40">
+        <div className="flex justify-end">
+          <span className="block bg-foxbg border-2 border-foxdark rounded-md relative mt-5 w-[300px] h-[450px] sm:w-[350px] sm:h-[500px] lg:w-[400px] lg:h-[600px]">
+            <Image src="/fox_reading.png" alt="Fox" fill />
+          </span>
+        </div>
 
-        <span className="flex flex-col items-center justify-center gap-5">
-          <h1 className="text-3xl font-bold text-center sm:text-4xl">About the Fox Archive</h1>
+        <span className="flex flex-col items-center justify-center gap-5 sm:items-start ">
+          <h1 className="text-3xl font-bold text-center sm:text-4xl sm:self-center">About the Fox Archive</h1>
+
           <p className={pStyle}>
             Human memories, ideas, jokes, fragments of conversation - has always been fragile. Left to drift. Erased by upgrades,
             migrations, and the slow entropy of group chats.
