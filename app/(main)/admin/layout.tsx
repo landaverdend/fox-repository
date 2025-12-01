@@ -10,8 +10,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="bg-foxdarkbg min-h-screen">
-      <Suspense fallback={<div>Loading</div>}>{children}</Suspense>
+    <div className="bg-foxdarkbg">
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen bg-foxdarkbg">Loading</div>}>{children}</Suspense>
     </div>
   );
 }

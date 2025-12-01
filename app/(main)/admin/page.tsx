@@ -16,7 +16,7 @@ export default async function AdminPage() {
   ]);
 
   return (
-    <div className="bg-foxdarkbg min-h-screen flex justify-center text-slate">
+    <div className="flex justify-center text-slate">
       <div className="flex flex-col items-center mt-5 gap-20">
         <div className="flex flex-col items-center">
           <h1 className="text-2xl font-bold">Pending Quotes</h1>

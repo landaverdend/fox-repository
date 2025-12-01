@@ -25,7 +25,7 @@ export default function AddQuotePage() {
   };
 
   return (
-    <div className="bg-foxdarkbg min-h-screen flex flex-col items-center gap-20 text-slate md:flex-row md:items-start md:justify-center">
+    <div className="bg-foxdarkbg flex flex-col items-center gap-20 text-slate md:flex-row md:items-start md:justify-center">
       <div className="mt-10 flex flex-col gap-4 items-center md:flex-row md:items-start">
         <div className="flex flex-col gap-2 justify-center items-center bg-foxbg p-2 rounded-md ">
           <h2 className="text-xl font-semibold">Quote Blocks</h2>
