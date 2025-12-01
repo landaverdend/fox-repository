@@ -16,7 +16,7 @@ export default function Header() {
 
       <div className="flex flex-col items-center justify-center mx-10 gap-8 sm:gap-16">
         <div className="flex flex-col items-center justify-center gap-5">
-          <h1 className="text-4xl font-semibold sm:text-6xl lg:text-7xl text-center sm:text-left">The Fox Archives</h1>
+          <h1 className="text-4xl font-semibold sm:text-6xl lg:text-7xl text-center sm:text-left">The Fox Archive</h1>
           <p className="text-2xl lg:text-4xl text-left">
             An evolving repository of quotes from Ryan Fox: preserved, contextualized, and{' '}
             <i className="font-semibold">selected.</i>
