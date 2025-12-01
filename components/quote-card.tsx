@@ -44,16 +44,18 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
   };
 
   return (
-    <div
-      className={`relative bg-foxbg p-4 rounded-md ${className} flex flex-col gap-2  
-      ${linesLength > 1 ? 'justify-start' : 'justify-center'}
-      ${hasDialogue ? 'items-start' : 'items-center'}`}>
-      {parsedQuote.lines.map((line) => (
-        <QuoteCardContent key={line.text} line={line} />
-      ))}
+    <div className={`${className} relative bg-foxbg p-4 rounded-md flex flex-col justify-between items-center gap-5`}>
+      <div
+        className={`flex flex-col gap-2  ${linesLength > 1 ? 'justify-start' : 'justify-center'} ${
+          hasDialogue ? 'items-start' : 'items-center'
+        }`}>
+        {parsedQuote.lines.map((line) => (
+          <QuoteCardContent key={line.text} line={line} />
+        ))}
+      </div>
 
       {/* Drawer of reactions */}
-      <div className="absolute bottom-[-12px] left-[40px] flex flex-row gap-1">
+      <div className="flex flex-row gap-1 flex-wrap">
         {quote.reactions.map((reaction) => (
           <div
             key={reaction.emoji}
@@ -63,7 +65,6 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
           </div>
         ))}
       </div>
-
       {quote.canReact && (
         <Popover className="sm:hidden">
           <PopoverButton className="absolute bottom-[-12px] left-[5px] px-2 pb-[1px] bg-foxlight/80 border border-foxdark text-white rounded-full text-sm select-none cursor-pointer hover:bg-foxlight/60">
