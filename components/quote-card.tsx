@@ -78,7 +78,7 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`${className} relative bg-foxbg p-4 rounded-md flex flex-col justify-between items-center gap-5 hover:bg-foxlight`}>
+      className={`${className} relative bg-foxbg p-4 rounded-md flex flex-col justify-between items-center gap-5 sm:hover:bg-foxlight`}>
       <div
         className={`flex flex-col gap-2  ${linesLength > 1 ? 'justify-start' : 'justify-center'} ${
           hasDialogue ? 'items-start' : 'items-center'
@@ -93,10 +93,10 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
         {quote.reactions.map((reaction) => (
           <div
             key={reaction.emoji}
-            className={`flex flex-row rounded-md items-center gap-1 px-2 select-none cursor-pointer text-white ${
+            className={`flex flex-row rounded-md items-center gap-1 px-2 select-none cursor-pointer ${
               reaction.clientReacted
                 ? 'bg-[#e2e3f9] border-[#5761eb] border text-[#4450b9]'
-                : 'bg-foxdark hover:bg-foxdark/80 border border-foxdark'
+                : 'bg-foxdark hover:bg-foxdark/80 border border-foxdark text-white'
             }`}
             onClick={() => handleEmojiDrawerClick(reaction)}>
             <span className="text-xl">{reaction.emoji}</span>
@@ -104,7 +104,7 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
           </div>
         ))}
 
-        {isHovered && (
+        {isHovered && quote.canReact && (
           <Popover className="hidden sm:block">
             <PopoverButton className="bg-foxdark border border-foxdark text-white hover:bg-foxdark/80 rounded-md px-2 text-sm">
               +
@@ -128,7 +128,7 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
       {/* Mobile Emoji Picker Icon */}
       {quote.canReact && (
         <Popover className="sm:hidden">
-          <PopoverButton className="absolute bottom-[-12px] left-[5px] px-2 pb-[1px] bg-foxlight/80 border border-foxdark text-white rounded-full text-sm select-none cursor-pointer hover:bg-foxlight/60">
+          <PopoverButton className="absolute bottom-[5px] left-[2px] px-3 py-1 bg-foxdark border border-foxdark text-white rounded-full text-sm select-none cursor-pointer hover:bg-foxlight/60">
             +
           </PopoverButton>
 
