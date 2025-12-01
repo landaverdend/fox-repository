@@ -1,7 +1,9 @@
 'use server';
 
 import prisma from '@/lib/prisma';
-import { QuoteWithReactions } from '@/types/types';
+import { stackServerApp } from '@/stack/server';
+import { QuoteWithReactions, Reaction } from '@/types/types';
+import { headers } from 'next/headers';
 
 // Combine the quote alongside reactions and variable that says whether the user can react to the quote.
 
@@ -27,7 +29,7 @@ export async function getQuotes(clientToken: string): Promise<QuoteWithReactions
   // Map the quotes to the QuoteWithReactions type
   return queryResult.map((quote) => {
     const reactionMap = new Map<string, number>();
-    let canReact = false;
+    let canReact = true;
 
     quote.reactions.forEach((reaction) => {
       // Count reactions per emoji
@@ -55,4 +57,42 @@ export async function getQuotes(clientToken: string): Promise<QuoteWithReactions
       canReact,
     };
   });
+}
+
+type AddReactionResponse = {
+  success: boolean;
+  message: string;
+  createdReaction?: Reaction;
+};
+export async function addReaction(clientToken: string, emoji: string, quoteId: number): Promise<AddReactionResponse> {
+  const user = await stackServerApp.getUser();
+
+  if (!clientToken && !user) {
+    return { success: false, message: 'Missing client token' };
+  }
+
+  const existingReaction = user
+    ? await prisma.reactions.findFirst({ where: { userId: user.id, quoteId } })
+    : await prisma.reactions.findFirst({ where: { clientToken, quoteId } });
+
+  if (existingReaction) {
+    return { success: false, message: 'Already reacted to this quote...' };
+  }
+
+  const headersList = headers();
+  const forwardedFor = headersList.get('x-forwarded-for');
+  const realIp = headersList.get('x-real-ip');
+  const ipAddress = forwardedFor?.split(',')[0].trim() || realIp || 'unknown';
+
+  const newReaction = await prisma.reactions.create({
+    data: {
+      quoteId,
+      emoji,
+      ipAddress,
+      clientToken,
+      userId: user?.id ?? null,
+    },
+  });
+
+  return { success: true, message: '', createdReaction: newReaction };
 }

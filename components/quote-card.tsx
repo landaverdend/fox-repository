@@ -4,18 +4,37 @@ import { ParsedQuote, ParsedQuoteLine, parseQuote } from '@/lib/quoteParser';
 import { QuoteWithReactions } from '@/types/types';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import EmojiPicker from 'emoji-picker-react';
+import { useClientToken } from './client-token-provider';
+import { addReaction } from '@/app/(main)/actions';
 
 type QCProps = {
   quote: QuoteWithReactions;
   className?: string;
 };
 export default function QuoteCard({ quote, className }: QCProps) {
+  const clientToken = useClientToken() ?? '';
+
   const parsedQuote = parseQuote(quote.quote);
 
   const linesLength = parsedQuote.lines.length;
   const hasDialogue = parsedQuote.lines.some((line) => line.type === 'dialogue');
 
-  console.log(quote);
+  const handleReactionClick = async (emoji: string) => {
+    if (!clientToken) {
+      alert('Missing client token!');
+      return;
+    }
+
+    try {
+      const resp = await addReaction(clientToken, emoji, quote.id);
+      if (!resp.success) {
+        alert(resp.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred with adding the reaction');
+    }
+  };
 
   return (
     <div
@@ -38,22 +57,26 @@ export default function QuoteCard({ quote, className }: QCProps) {
         ))}
       </div>
 
-      <Popover className="sm:hidden">
-        <PopoverButton className="absolute bottom-[-12px] left-[5px] px-2 pb-[1px] bg-foxlight/80 border border-foxdark text-white rounded-full text-sm select-none cursor-pointer hover:bg-foxlight/60">
-          +
-        </PopoverButton>
+      {quote.canReact && (
+        <Popover className="sm:hidden">
+          <PopoverButton className="absolute bottom-[-12px] left-[5px] px-2 pb-[1px] bg-foxlight/80 border border-foxdark text-white rounded-full text-sm select-none cursor-pointer hover:bg-foxlight/60">
+            +
+          </PopoverButton>
 
-        <PopoverPanel anchor="bottom start" className="">
-          <EmojiPicker
-            onEmojiClick={(emoji) => console.log(emoji)}
-            className="!w-[290px] xs:!w-[350px]"
-            autoFocusSearch={false}
-            previewConfig={{
-              showPreview: false,
-            }}
-          />
-        </PopoverPanel>
-      </Popover>
+          <PopoverPanel anchor="bottom start" className="">
+            <EmojiPicker
+              onEmojiClick={(emoji) => {
+                handleReactionClick(emoji.emoji);
+              }}
+              className="!w-[290px] xs:!w-[350px]"
+              autoFocusSearch={false}
+              previewConfig={{
+                showPreview: false,
+              }}
+            />
+          </PopoverPanel>
+        </Popover>
+      )}
     </div>
   );
 }

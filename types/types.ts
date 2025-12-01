@@ -41,4 +41,14 @@ export type PendingQuote = {
   quoteHash: string;
 };
 
+export type Reaction = {
+  id: number;
+  quoteId: number;
+  emoji: string;
+  clientToken: string | null;
+  userId: string | null;
+  ipAddress: string;
+  createdAt: Date;
+};
+
 export type StackPermission = 'admin' | 'readonly';
