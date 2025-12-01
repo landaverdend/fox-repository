@@ -6,6 +6,7 @@ import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import EmojiPicker from 'emoji-picker-react';
 import { useClientToken } from './client-token-provider';
 import { addReaction, removeReaction } from '@/app/(main)/actions';
+import { useState } from 'react';
 
 type QCProps = {
   quote: QuoteWithReactions;
@@ -15,7 +16,8 @@ type QCProps = {
 export default function QuoteCard({ quote, className, onReactionAdded }: QCProps) {
   const clientToken = useClientToken() ?? '';
 
-  const parsedQuote = parseQuote(quote.quote);
+  const [isHovered, setIsHovered] = useState(false);
+  const [parsedQuote, _] = useState<ParsedQuote>(parseQuote(quote.quote));
 
   const linesLength = parsedQuote.lines.length;
   const hasDialogue = parsedQuote.lines.some((line) => line.type === 'dialogue');
@@ -73,7 +75,10 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
   };
 
   return (
-    <div className={`${className} relative bg-foxbg p-4 rounded-md flex flex-col justify-between items-center gap-5`}>
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`${className} relative bg-foxbg p-4 rounded-md flex flex-col justify-between items-center gap-5 hover:bg-foxlight`}>
       <div
         className={`flex flex-col gap-2  ${linesLength > 1 ? 'justify-start' : 'justify-center'} ${
           hasDialogue ? 'items-start' : 'items-center'
@@ -84,7 +89,7 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
       </div>
 
       {/* Drawer of reactions */}
-      <div className="flex flex-row gap-1 flex-wrap">
+      <div className="flex flex-row gap-1 flex-wrap items-center justify-center">
         {quote.reactions.map((reaction) => (
           <div
             key={reaction.emoji}
@@ -98,7 +103,29 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
             <span className="text-semibold">{reaction.count}</span>
           </div>
         ))}
+
+        {isHovered && (
+          <Popover className="hidden sm:block">
+            <PopoverButton className="bg-foxdark border border-foxdark text-white hover:bg-foxdark/80 rounded-md px-2 text-sm">
+              +
+            </PopoverButton>
+            <PopoverPanel anchor="top start">
+              <EmojiPicker
+                onEmojiClick={(emoji) => {
+                  handleReactionClick(emoji.emoji);
+                }}
+                className=""
+                autoFocusSearch={false}
+                previewConfig={{
+                  showPreview: false,
+                }}
+              />
+            </PopoverPanel>
+          </Popover>
+        )}
       </div>
+
+      {/* Mobile Emoji Picker Icon */}
       {quote.canReact && (
         <Popover className="sm:hidden">
           <PopoverButton className="absolute bottom-[-12px] left-[5px] px-2 pb-[1px] bg-foxlight/80 border border-foxdark text-white rounded-full text-sm select-none cursor-pointer hover:bg-foxlight/60">
