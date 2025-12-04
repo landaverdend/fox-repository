@@ -85,7 +85,7 @@ export async function addReaction(clientToken: string, emoji: string, quoteId: n
     return { success: false, message: 'Already reacted to this quote...' };
   }
 
-  const headersList = headers();
+  const headersList = await headers();
   const forwardedFor = headersList.get('x-forwarded-for');
   const realIp = headersList.get('x-real-ip');
   const ipAddress = forwardedFor?.split(',')[0].trim() || realIp || 'unknown';
