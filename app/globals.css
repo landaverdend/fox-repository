@@ -3,7 +3,46 @@
 @tailwind utilities;
 
 :root {
+  --fox-glow: rgba(221, 131, 66, 0.15);
+}
+
+* {
+  scroll-behavior: smooth;
 }
 
 body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(221, 131, 66, 0.3);
+  color: #3b2618;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(230, 214, 179, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(179, 103, 52, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(179, 103, 52, 0.7);
+}
+
+/* Focus styles for accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #dd8342;
+  outline-offset: 2px;
 }

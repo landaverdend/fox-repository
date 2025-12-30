@@ -91,16 +91,21 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
     }
   };
 
+  const totalReactions = quote.reactions.reduce((sum, r) => sum + r.count, 0);
+
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`${className} relative bg-gradient-to-br from-foxbg to-foxbg/80 p-5 rounded-xl flex flex-col justify-between items-center gap-4
-        shadow-md hover:shadow-lg border border-foxlight/30 transition-all duration-200 sm:hover:scale-[1.02] sm:hover:border-fox/40`}>
+      className={`${className} group relative bg-gradient-to-br from-foxbg via-foxbg to-foxbg/90 p-6 rounded-2xl flex flex-col justify-between items-center gap-4
+        shadow-md hover:shadow-xl border border-foxlight/20 transition-all duration-300 sm:hover:scale-[1.02] sm:hover:-translate-y-1 overflow-hidden`}>
+
+      {/* Decorative quotation mark */}
+      <div className="absolute -top-2 -left-1 text-fox/10 text-8xl font-serif pointer-events-none select-none">"</div>
 
       {/* Quote content */}
       <div
-        className={`flex flex-col gap-2 flex-1 w-full ${linesLength > 1 ? 'justify-start' : 'justify-center'} ${
+        className={`flex flex-col gap-3 flex-1 w-full relative z-10 ${linesLength > 1 ? 'justify-start' : 'justify-center'} ${
           hasDialogue ? 'items-start' : 'items-center'
         }`}>
         {parsedQuote.lines.map((line) => (
@@ -109,52 +114,61 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
       </div>
 
       {/* Footer: Date and Reactions */}
-      <div className="w-full pt-3 border-t border-foxlight/30">
-        {/* Date posted */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-1.5 text-slate/60 text-xs">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <div className="w-full pt-4 border-t border-foxlight/20 relative z-10">
+        {/* Metadata row */}
+        <div className="flex items-center justify-between mb-3 text-xs">
+          <div className="flex items-center gap-1.5 text-slate/50">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             <span>{formatDate(quote.uploadedAt)}</span>
           </div>
-          {quote.uploadedByName && (
-            <div className="flex items-center gap-1.5 text-slate/60 text-xs">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              <span>{quote.uploadedByName}</span>
-            </div>
-          )}
+          <div className="flex items-center gap-3">
+            {quote.uploadedByName && (
+              <div className="flex items-center gap-1.5 text-slate/50">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span>{quote.uploadedByName}</span>
+              </div>
+            )}
+            {totalReactions > 0 && (
+              <div className="flex items-center gap-1 text-fox/70 font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                <span>{totalReactions}</span>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Reactions drawer */}
-        <div className="flex flex-row gap-1.5 flex-wrap items-center justify-center">
+        <div className="flex flex-row gap-2 flex-wrap items-center justify-center min-h-[32px]">
           {quote.reactions.map((reaction) => (
             <div
               key={reaction.emoji}
-              className={`flex flex-row rounded-full items-center gap-1 px-2.5 py-0.5 select-none cursor-pointer transition-all duration-150 ${
+              className={`flex flex-row rounded-full items-center gap-1 px-3 py-1 select-none cursor-pointer transition-all duration-200 ${
                 reaction.clientReacted
-                  ? 'bg-fox/20 border-fox border text-foxdark shadow-sm'
-                  : 'bg-foxdark/90 hover:bg-foxdark border border-foxdark/80 text-white hover:scale-105'
+                  ? 'bg-fox/20 border-fox/60 border text-foxdark shadow-sm scale-105'
+                  : 'bg-foxdark/80 hover:bg-foxdark border border-transparent text-white hover:scale-110 hover:shadow-md'
               }`}
               onClick={() => handleEmojiDrawerClick(reaction)}>
-              <span className="text-lg">{reaction.emoji}</span>
-              <span className="text-sm font-medium">{reaction.count}</span>
+              <span className="text-base">{reaction.emoji}</span>
+              <span className="text-xs font-semibold">{reaction.count}</span>
             </div>
           ))}
 
           {quote.canReact && (
             <Popover className="hidden sm:block">
-              <PopoverButton className={`bg-foxdark/90 border border-foxdark/80 text-white hover:bg-foxdark hover:scale-105 rounded-full w-7 h-7 flex items-center justify-center text-sm font-medium transition-all duration-150 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+              <PopoverButton className={`bg-foxlight/50 border border-foxlight/60 text-foxdark hover:bg-foxlight hover:scale-110 rounded-full w-8 h-8 flex items-center justify-center text-lg font-medium transition-all duration-200 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
                 +
               </PopoverButton>
-              <PopoverPanel anchor="top start">
+              <PopoverPanel anchor="top start" className="z-50">
                 <EmojiPicker
                   onEmojiClick={(emoji) => {
                     handleReactionClick(emoji.emoji);
                   }}
-                  className=""
                   autoFocusSearch={false}
                   previewConfig={{
                     showPreview: false,
@@ -194,16 +208,25 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
 export function QuoteCardContent({ line }: { line: ParsedQuoteLine }) {
   switch (line.type) {
     case 'context':
-      return <p className="text-slate text-sm sm:text-md italic self-center">({line.text})</p>;
+      return (
+        <p className="text-slate/60 text-sm italic self-center bg-foxlight/10 px-3 py-1 rounded-full">
+          {line.text}
+        </p>
+      );
     case 'dialogue':
       return (
-        <p className="text-slate text-md sm:text-lg">
-          <span className="font-bold">{line.speaker}:</span> &quot;{line.text}&quot;
+        <p className="text-slate text-base sm:text-lg leading-relaxed">
+          <span className="font-bold text-foxdark">{line.speaker}:</span>{' '}
+          <span className="text-slate/90">&ldquo;{line.text}&rdquo;</span>
         </p>
       );
     default:
     case 'text':
-      return <p className="text-slate text-md sm:text-lg">&quot;{line.text}&quot;</p>;
+      return (
+        <p className="text-slate/90 text-base sm:text-lg leading-relaxed text-center">
+          &ldquo;{line.text}&rdquo;
+        </p>
+      );
   }
 }
 
