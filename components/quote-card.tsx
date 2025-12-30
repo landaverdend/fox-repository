@@ -144,9 +144,9 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
             </div>
           ))}
 
-          {isHovered && quote.canReact && (
+          {quote.canReact && (
             <Popover className="hidden sm:block">
-              <PopoverButton className="bg-foxdark/90 border border-foxdark/80 text-white hover:bg-foxdark hover:scale-105 rounded-full w-7 h-7 flex items-center justify-center text-sm font-medium transition-all duration-150">
+              <PopoverButton className={`bg-foxdark/90 border border-foxdark/80 text-white hover:bg-foxdark hover:scale-105 rounded-full w-7 h-7 flex items-center justify-center text-sm font-medium transition-all duration-150 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
                 +
               </PopoverButton>
               <PopoverPanel anchor="top start">

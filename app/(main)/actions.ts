@@ -8,8 +8,13 @@ import { headers } from 'next/headers';
 // Combine the quote alongside reactions and variable that says whether the user can react to the quote.
 
 export type SortOrder = 'asc' | 'desc';
+export type SortBy = 'date' | 'reactions';
 
-export async function getQuotes(clientToken: string, sortOrder: SortOrder = 'desc'): Promise<QuoteWithReactions[]> {
+export async function getQuotes(
+  clientToken: string,
+  sortOrder: SortOrder = 'desc',
+  sortBy: SortBy = 'date'
+): Promise<QuoteWithReactions[]> {
   const user = await stackServerApp.getUser();
   // Grab all the quotes from the database.
   const queryResult = await prisma.quotes.findMany({
@@ -27,11 +32,12 @@ export async function getQuotes(clientToken: string, sortOrder: SortOrder = 'des
         },
       },
     },
-    orderBy: { uploadedAt: sortOrder },
+    // Always fetch, we'll sort in memory if sorting by reactions
+    orderBy: { uploadedAt: 'desc' },
   });
 
   // Map the quotes to the QuoteWithReactions type
-  return queryResult.map((quote) => {
+  const mappedQuotes = queryResult.map((quote) => {
     const reactionMap = new Map<string, number>();
     let canReact = true;
 
@@ -54,16 +60,30 @@ export async function getQuotes(clientToken: string, sortOrder: SortOrder = 'des
     }));
 
     return {
-      ...{
-        id: quote.id,
-        quote: quote.quote,
-        uploadedAt: quote.uploadedAt,
-        uploadedByName: quote.uploadedBy?.name ?? null,
-      },
+      id: quote.id,
+      quote: quote.quote,
+      uploadedAt: quote.uploadedAt,
+      uploadedByName: quote.uploadedBy?.name ?? null,
       reactions,
       canReact,
     };
   });
+
+  // Sort the quotes based on the sort parameters
+  const sortedQuotes = mappedQuotes.sort((a, b) => {
+    if (sortBy === 'reactions') {
+      const aCount = a.reactions.reduce((sum, r) => sum + r.count, 0);
+      const bCount = b.reactions.reduce((sum, r) => sum + r.count, 0);
+      return sortOrder === 'desc' ? bCount - aCount : aCount - bCount;
+    } else {
+      // Sort by date
+      const aDate = new Date(a.uploadedAt).getTime();
+      const bDate = new Date(b.uploadedAt).getTime();
+      return sortOrder === 'desc' ? bDate - aDate : aDate - bDate;
+    }
+  });
+
+  return sortedQuotes;
 }
 
 type AddReactionResponse = {
