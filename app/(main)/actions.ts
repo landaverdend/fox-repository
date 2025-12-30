@@ -7,7 +7,9 @@ import { headers } from 'next/headers';
 
 // Combine the quote alongside reactions and variable that says whether the user can react to the quote.
 
-export async function getQuotes(clientToken: string): Promise<QuoteWithReactions[]> {
+export type SortOrder = 'asc' | 'desc';
+
+export async function getQuotes(clientToken: string, sortOrder: SortOrder = 'desc'): Promise<QuoteWithReactions[]> {
   const user = await stackServerApp.getUser();
   // Grab all the quotes from the database.
   const queryResult = await prisma.quotes.findMany({
@@ -25,7 +27,7 @@ export async function getQuotes(clientToken: string): Promise<QuoteWithReactions
         },
       },
     },
-    orderBy: { uploadedAt: 'desc' },
+    orderBy: { uploadedAt: sortOrder },
   });
 
   // Map the quotes to the QuoteWithReactions type

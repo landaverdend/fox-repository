@@ -17,21 +17,21 @@ export default function DonateButton() {
   };
 
   return (
-    <Popover className="self-center flex flex-col ">
-      <PopoverButton className="bg-fox text-white text-semibold text-2xl px-4 py-2 rounded-md hover:bg-foxdark/80 select-none cursor-pointer">
-        Donate <span className="text-2xl">₿</span>{' '}
+    <Popover className="self-center flex flex-col">
+      <PopoverButton className="bg-foxbg text-foxdark border-2 border-foxdark font-semibold text-lg px-6 py-3 rounded-xl hover:bg-foxlight/50 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 select-none cursor-pointer">
+        Donate <span className="text-lg">₿</span>
       </PopoverButton>
       <PopoverPanel
-        className="self-center flex flex-col items-center justify-center gap-2 bg-gray-100 border border-foxdark p-4 rounded-md"
-        anchor={{ to: 'top', gap: 10 }}>
-        <QRCodeSVG value={DONATE_ADDRESS} size={240} level="H" className="" />
-        <span className="flex items-center justify-center gap-1 text-xs text-center sm:text-md">
-          <span className="bg-foxlight p-1 rounded-md">{DONATE_ADDRESS}</span>
+        className="self-center flex flex-col items-center justify-center gap-3 bg-foxbg border-2 border-foxdark/30 p-5 rounded-xl shadow-xl"
+        anchor={{ to: 'top', gap: 12 }}>
+        <QRCodeSVG value={DONATE_ADDRESS} size={220} level="H" className="rounded-lg" />
+        <span className="flex items-center justify-center gap-2 text-xs text-center sm:text-sm">
+          <span className="bg-foxdarkbg text-slate/80 px-2 py-1 rounded-lg font-mono text-xs">{DONATE_ADDRESS}</span>
           {isCopied ? (
-            <Check className="size-4 text-green-500 cursor-pointer hover:text-green-600" />
+            <Check className="size-5 text-green-600 cursor-pointer" />
           ) : (
             <Copy
-              className="size-4 text-black cursor-pointer hover:text-orange-300"
+              className="size-5 text-foxdark cursor-pointer hover:text-fox transition-colors"
               onClick={() => copyToClipboard(DONATE_ADDRESS)}
             />
           )}

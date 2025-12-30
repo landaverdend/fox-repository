@@ -7,25 +7,27 @@ export default function Header() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col lg:flex-row-reverse items-center justify-center text-slate mt-5 mx-4 sm:mx-20 md:mx-32 lg:mx-40 xl:mx-50">
+    <div className="flex flex-col lg:flex-row-reverse items-center justify-center text-slate mt-8 mx-4 sm:mx-12 md:mx-20 lg:mx-32 xl:mx-40">
       <div className="flex justify-start">
-        <span className="block rounded-md relative mt-5 w-[300px] h-[450px] sm:w-[350px] sm:h-[500px] lg:w-[400px] lg:h-[600px]">
-          <Image src="/fox_waving.png" alt="Fox" className="" fill />
+        <span className="block rounded-2xl relative mt-5 w-[280px] h-[420px] sm:w-[320px] sm:h-[480px] lg:w-[380px] lg:h-[570px] drop-shadow-xl">
+          <Image src="/fox_waving.png" alt="Fox" className="drop-shadow-2xl" fill priority />
         </span>
       </div>
 
-      <div className="flex flex-col items-center justify-center mx-10 gap-8 sm:gap-16">
-        <div className="flex flex-col items-center justify-center gap-5">
-          <h1 className="text-4xl font-semibold sm:text-6xl lg:text-7xl text-center sm:text-left">The Fox Archive</h1>
-          <p className="text-2xl lg:text-4xl text-left">
+      <div className="flex flex-col items-center lg:items-start justify-center mx-6 lg:mx-12 gap-8 sm:gap-12">
+        <div className="flex flex-col items-center lg:items-start justify-center gap-4">
+          <h1 className="text-4xl font-bold sm:text-5xl lg:text-6xl xl:text-7xl text-center lg:text-left tracking-tight">
+            The Fox Archive
+          </h1>
+          <p className="text-xl sm:text-2xl lg:text-3xl text-center lg:text-left text-slate/80 leading-relaxed max-w-xl">
             An evolving repository of quotes from Ryan Fox: preserved, contextualized, and{' '}
-            <i className="font-semibold">selected.</i>
+            <span className="font-semibold italic text-fox">selected.</span>
           </p>
         </div>
 
-        <div className="flex flex-col gap-2 sm:flex-row">
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
-            className="bg-foxdark text-white text-semibold text-2xl px-4 py-2 rounded-md hover:bg-foxdark/80"
+            className="bg-foxdark text-white font-semibold text-lg px-6 py-3 rounded-xl hover:bg-fox shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
             onClick={() => {
               router.push('/add-quote');
             }}>
