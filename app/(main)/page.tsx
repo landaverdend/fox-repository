@@ -73,13 +73,14 @@ export default function Home() {
       <Header />
 
       {/* Sort controls section */}
-      <div className="flex flex-wrap items-center justify-center gap-3 px-4">
+      <div className={`flex flex-wrap items-center justify-center gap-3 px-4 transition-opacity duration-200 ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}>
         <span className="text-slate/50 text-sm font-medium">Sort by:</span>
 
         {/* Sort field toggle */}
         <div className="flex rounded-full bg-foxbg/60 border border-foxlight/40 p-0.5 shadow-sm">
           <button
             onClick={() => setSortBy('date')}
+            disabled={isLoading}
             className={`flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full transition-all duration-200 ${
               sortBy === 'date'
                 ? 'bg-foxdark text-white shadow-sm'
@@ -93,6 +94,7 @@ export default function Home() {
           </button>
           <button
             onClick={() => setSortBy('reactions')}
+            disabled={isLoading}
             className={`flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full transition-all duration-200 ${
               sortBy === 'reactions'
                 ? 'bg-foxdark text-white shadow-sm'
@@ -109,6 +111,7 @@ export default function Home() {
         {/* Sort order toggle */}
         <button
           onClick={toggleSortOrder}
+          disabled={isLoading}
           className="flex items-center gap-2 bg-foxbg/80 text-slate border border-foxlight/40 text-sm px-3 py-1.5 rounded-full hover:bg-foxbg hover:border-fox/40 transition-all duration-200 shadow-sm hover:shadow"
         >
           {sortOrder === 'desc' ? (
