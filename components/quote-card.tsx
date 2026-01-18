@@ -105,9 +105,8 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
 
       {/* Quote content */}
       <div
-        className={`flex flex-col gap-3 flex-1 w-full relative z-10 ${linesLength > 1 ? 'justify-start' : 'justify-center'} ${
-          hasDialogue ? 'items-start' : 'items-center'
-        }`}>
+        className={`flex flex-col gap-3 flex-1 w-full relative z-10 ${linesLength > 1 ? 'justify-start' : 'justify-center'} ${hasDialogue ? 'items-start' : 'items-center'
+          }`}>
         {parsedQuote.lines.map((line) => (
           <QuoteCardContent key={line.text} line={line} />
         ))}
@@ -148,11 +147,10 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
           {quote.reactions.map((reaction) => (
             <div
               key={reaction.emoji}
-              className={`flex flex-row rounded-full items-center gap-1 px-3 py-1 select-none cursor-pointer transition-all duration-200 ${
-                reaction.clientReacted
-                  ? 'bg-fox/20 border-fox/60 border text-foxdark shadow-sm scale-105'
-                  : 'bg-foxdark/80 hover:bg-foxdark border border-transparent text-white hover:scale-110 hover:shadow-md'
-              }`}
+              className={`flex flex-row rounded-full items-center gap-1 px-3 py-1 select-none cursor-pointer transition-all duration-200 ${reaction.clientReacted
+                ? 'bg-fox/20 border-fox/60 border text-foxdark shadow-sm scale-105'
+                : 'bg-foxdark/80 hover:bg-foxdark border border-transparent text-white hover:scale-110 hover:shadow-md'
+                }`}
               onClick={() => handleEmojiDrawerClick(reaction)}>
               <span className="text-base">{reaction.emoji}</span>
               <span className="text-xs font-semibold">{reaction.count}</span>
@@ -187,12 +185,12 @@ export default function QuoteCard({ quote, className, onReactionAdded }: QCProps
             +
           </PopoverButton>
 
-          <PopoverPanel anchor="bottom start" className="">
+          <PopoverPanel anchor="bottom start" className="z-50">
             <EmojiPicker
               onEmojiClick={(emoji) => {
                 handleReactionClick(emoji.emoji);
               }}
-              className="!w-[290px] xs:!w-[350px]"
+              className="!z-50 !w-[290px] xs:!w-[350px]"
               autoFocusSearch={false}
               previewConfig={{
                 showPreview: false,
